@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<build>
+	<table name="T_AUTO_INFO">
+		<column name="AUTO_ID" alias="autoId" type="String"/>
+		<column name="LICENSE_NO" alias="licenseNo" type="String"/>
+		<column name="LICENSE_FILE" alias="licenseFile" type="String"/>
+		<column name="PLATE" alias="plate" type="String"/>
+		<column name="PLATE_NO" alias="plateNo" type="String"/>
+		<column name="BRAND" alias="brand" type="String"/>
+		<column name="MODEL" alias="model" type="String"/>
+		<column name="ENGINE_NO" alias="engineNo" type="String"/>
+		<column name="FRAME_NO" alias="frameNo" type="String"/>
+		<column name="OWNER_ID" alias="ownerId" type="String"/>
+		<column name="OWNER_TYPE" alias="ownerType" type="Integer"/>
+		<column name="CREATED_USER_ID" alias="createdUserId" type="String"/>
+		<column name="CREATED_DATE" alias="createdDate" type="Date"/>
+		<column name="UPDATED_USER_ID" alias="updatedUserId" type="String"/>
+		<column name="UPDATED_DATE" alias="updatedDate" type="Date"/>
+		<column name="IS_DELETED" alias="isDeleted" type="Integer"/>
+	</table>
+	
+	<bean name="" package="" table="T_AUTO_INFO"/>
+	
+	<form breadcrumb="" col="" bean=""/>
+	
+	<list>
+		<inputs>
+		</inputs>
+		
+		<outputs>
+		</outputs>
+	</list>
+</build>

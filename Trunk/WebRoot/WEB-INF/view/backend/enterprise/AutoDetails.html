@@ -1,0 +1,79 @@
+<div id="Page_AutoDetails" data-role='page' class="row hidden">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		<li>车辆详情</li> </@macro.Breadcrumb>
+
+		<form id="frm_auto"  class="form-horizontal" enctype="multipart/form-data">
+			<input type="hidden" name="ownerType" value="1"/>
+			<input type="hidden" id="autoId" name="autoId" />
+			<input type="hidden" id="ownerId" name="ownerId" value="${user.ownerId}"/>
+			
+			<input type="hidden" id="typeName" name="typeName"/>
+			<input type="hidden" id="brandName" name="brandName" />
+			<input type="hidden" id="modelName" name="modelName"/>
+			
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="车牌号"
+					name="plateNo" /></div>
+					
+				<div class="col-lg-6">
+					<@macro.form_select name="type" label="车辆类型"
+					statementId="DataInfo.Query" filter="parentId:2" optionValue="id"
+					optionName="label" cascade="brand">
+					<option value="">选择类型</option>
+					</@macro.form_select>
+				</div>
+			</div>
+			
+						<div class="row">
+				<div class="col-lg-6">
+					<@macro.form_select name="brand" label="车辆品牌"
+					statementId="DataInfo.Query" filter="parentId" optionValue="id"
+					optionName="label" cascade="model" initial="0">
+					<option value="">选择品牌</option>
+					</@macro.form_select>
+				</div>
+				<div class="col-lg-6 date">
+					<@macro.form_select name="model" label="车辆型号"
+					statementId="DataInfo.Query" filter="parentId" optionValue="id" optionName="label"
+					initial="0">
+					<option value="">选择型号</option>
+					</@macro.form_select>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="行驶证号"
+					name="licenseNo" /></div>
+				<div class="col-lg-6"><@macro.form_file label="行驶证附件"
+					name="licenseFileUri" /></div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="发动机编号"
+					name="engineNo" /></div>
+				<div class="col-lg-6"><@macro.form_text label="车架号"
+					name="frameNo" /></div>
+			</div>
+			
+			<div class="space12"></div>
+			<div class="row ">
+				<div class="col-lg-12" style="text-align: center;">
+				    <@macro.button_save form="frm_auto"/>
+					<@macro.button_back/></div>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

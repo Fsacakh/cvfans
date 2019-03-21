@@ -1,0 +1,104 @@
+<div id="Page_Index" class="container login_mian" data-role="page">
+	<div class="row">
+		<div class="col-md-7" style="padding-left:0px;">
+			<div class="loginpic" ><img src="${requestContext.contextPath}/media/image/kachezhiyou/loginpic.png"></div>
+		</div>
+		
+		<div class="col-lg-5">
+			<div class="tag_title">
+              <div id="r_reg">我需要 <a href="/auto/register.html">注册></a> </div>
+          	</div>
+          	
+			<form id="frm_login"  action="/User/Login.action" class="form-horizontal" style="padding-top:70px;">
+				<input type="hidden" id="source" name="source" value="web"/>
+				<div class="form-group">
+					<label for="userName" class="control-label col-md-3 text-left">
+						用户名
+					</label>
+					<div class="col-md-9 checkItem">
+						<input type="text" id="userName" name="userName" class="form-control"  required placeholder="">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="password"  class="control-label col-md-3 text-right">
+						密码:
+					</label>
+					<div class="col-md-9">
+						<input type="password" id="password" name="password" class="form-control"  required placeholder="">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="code"  class="control-label col-md-3 text-right">
+						验证码:
+					</label>
+					
+					<div class="col-md-5">
+						<input type="text" id="code" name="code" class="form-control"  required placeholder="">
+					</div>
+					
+					<div class="col-lg-4">
+						<img id="codeImage" src="${requestContext.contextPath}/Code/Get.action"
+							style="width: 72%; height: 30px" />
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-md-3"></div>
+					<div class="col-lg-6">
+						<label class="checkbox">
+								<input type="checkbox" name="" deserialized="false">
+								&nbsp;
+								<strong>下次自动登陆</strong>
+						</label>
+					</div>
+					<div class="col-lg-3">
+						<a class="checkbox" href="#" deserialized="false">忘记密码？</a>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-lg-12">
+						<a href="#" id="btn_login" class="btn yellow big btn-block">登录<i class="m-icon-big-swapright m-icon-white"></i></a>
+					</div>
+				</div>		
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(document).ready(function(){
+		$("#frm_login").on("onSubmitted", function(event, response){
+			$.cookie("userId", response.userId);
+			
+			if(response.ownerRole == 2){
+				window.location.href='${requestContext.contextPath}/backend/station/StationManagement.html';
+			}else if(response.ownerRole == 3){
+				window.location.href='${requestContext.contextPath}/backend/enterprise/EnterpriseManagement.html';
+			}else if(response.ownerRole == 4){
+				window.location.href='${requestContext.contextPath}/backend/sys/StationManagement.html';
+			} 	
+		}).on('onFailSubmitted', function(event, response){
+			$('#codeImage').attr('src','${requestContext.contextPath}/Code/Get.action?' + Math.random());
+			$.Dialog.alert(response.status_text);
+		});
+		
+		$("#frm_login").validate();
+		
+      	var inp = $('input');
+		inp.bind('keydown', function (event){ 
+			if(event.keyCode == 13){
+				$('#btn_login').trigger("click");
+				
+				event.stopPropagation(); 
+			}
+		});
+		
+		//点击监听事件
+		$('#btn_login').on("click", function(event){
+			$("#frm_login").submit();
+		});
+	});
+</script>

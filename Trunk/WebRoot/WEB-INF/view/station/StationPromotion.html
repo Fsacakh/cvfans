@@ -1,0 +1,41 @@
+<div id="Page_StationPromotion_more" class="row" data-role="page">
+	<div class="col-lg-12">
+		<div class="row">
+			<div class="col-lg-12">
+				<@macro.Breadcrumb>
+				  	  <li>
+					  	<a href="#">首页</a>
+					  </li>
+					  <li><a href="#">促销信息</a></li>
+				</@macro.Breadcrumb>
+			</div>
+		</div>
+		
+		<form id="frm_query" name="frm_query">
+			<input type="hidden" id="colNum" name="colNum" value="4"/>
+		</form>
+		
+		<div class="row">
+			<table id="datatable_promotion" class="dataTable row-border" data-statement="cvfans.queryStationPromotionInfos_all_1" data-criteria="frm_query">
+				<thead class="hidden">
+					<tr role="row">
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody/>
+			</table>
+        </div>
+    </div>
+</div>
+<!--main 页面主体结束--> 
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		var param = {};
+		$("#Page_StationPromotion_more").trigger("onShown", param);
+	});
+</script>
+

@@ -1,0 +1,79 @@
+<div id="Page_EnterpriseDetail" data-role='page' class="row" style="margin-left: 45px">
+	<div class="col-lg-12">
+	<div>
+		<@macro.Breadcrumb>
+			<li>
+			  	<a href="#">设置</a>
+			</li>
+			<li>个人资料</li>
+		</@macro.Breadcrumb>
+	</div>	
+
+		<form id="frm_enterprise" class="form-horizontal" enctype="multipart/form-data">
+			<input type="hidden" id="enterpriseId" name="enterpriseId"/>
+			<input type="hidden" id="provinceName" name="provinceName"/>
+			<input type="hidden" id="cityName" name="cityName"/>
+			<input type="hidden" id="areaName" name="areaName"/>
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="车管" name="name" /></div>
+				<div class="col-lg-6">
+					<@macro.form_file label="许可证附件" name="licenseFile" />
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="form-group">
+						<label class="control-label col-lg-2">地址</label>
+						<div class="col-lg-2">
+							<@macro.field_select name="province" statementId="DataInfo.Query" filter="parentId:1" optionValue="id" optionName="label" cascade="city">
+								<option value="">选择省份</option>
+							</@macro.field_select>
+						</div>
+						<div class="col-lg-2">
+							<@macro.field_select name="city" statementId="DataInfo.Query" optionValue="id" optionName="label" filter="parentId"  initial="0" cascade="area">
+								<option value="">选择市</option>
+							</@macro.field_select>
+						</div>
+						<div class="col-lg-2">
+							<@macro.field_select name="area" statementId="DataInfo.Query" optionValue="id" optionName="label" filter="parentId" initial="0">
+								<option value="">选择市</option>
+							</@macro.field_select>
+						</div>
+						<div class="col-lg-4">
+							<input id="address" name="address" type="text" class="form-control" placeholder="">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="联系人"
+					name="contacter" /></div>
+				<div class="col-lg-6"><@macro.form_text label="联系人电话"
+					name="contactTel" /></div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="财务联系人"
+					name="finContacter" /></div>
+				<div class="col-lg-6"><@macro.form_text label="财务联系人电话"
+					name="finContactMobile" /></div>
+			</div>
+
+			<div class="space12"></div>
+			<div class="row ">
+				<div class="col-lg-12" style="text-align: center;">
+					<@macro.button_save form="frm_enterprise"/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<script type="text/javascript" src="${requestContext.contextPath}/media/js/app/frontend/main.js"></script>
+
+
+
+
+
+
+
+

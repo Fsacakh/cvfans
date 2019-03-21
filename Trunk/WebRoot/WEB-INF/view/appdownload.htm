@@ -1,0 +1,46 @@
+<html lang="en">
+  <head>
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	
+	<!-- BEGIN GLOBAL MANDATORY STYLES -->
+	<link href="../media/css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="../media/css/main.css" rel="stylesheet" type="text/css">
+	<!-- END GLOBAL MANDATORY STYLES -->
+	<script type="text/javascript"  src="../media/js/plugin/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript">
+	 $(document).ready(function() {
+		var agent = navigator.userAgent.toLowerCase();  
+		//点击监听事件
+			$('#download').on("click", function(event) {
+				if(agent.indexOf("mqqbrowser")>-1)
+				{
+					$('.btnsty').css("display", "block");
+				}
+			});
+		});
+	</script>
+  </head>
+<body>
+<div class="row">
+	<div class="col-xs-12 downbanner">
+		<img src="../media/image/downbanner.png" style="width: 100%; padding: 5px;">
+	</div>
+	<div class="col-xs-12 btnsty">
+			<img src="../media/image/btnsty.png" style="width: 100%;">
+    </div>
+	<div class="col-xs-12 downbtn" style="text-align:center;">
+		<a id="download"
+			href="../download/cvfans.apk"><img
+				src="../media/image/downbtn.png"> </a>
+	</div>
+	
+	<div class="col-xs-12 downbtn" style="text-align:center;">
+		<a href="#"><img
+				src="../media/image/downbtn02.png">
+		</a>
+	</div>
+</div>
+</body>

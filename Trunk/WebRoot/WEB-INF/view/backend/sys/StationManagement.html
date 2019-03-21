@@ -1,0 +1,16 @@
+<head>
+	<title>服务站管理</title>
+</head>
+
+<body>
+	<#include "./StationList.html">
+	<#include "./StationEdit.html">
+	<#include "../station/StationDetail.html">
+	<#include "./Register.html">
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#Page_StationListView").trigger("onShown");
+		});
+	</script>
+</body>

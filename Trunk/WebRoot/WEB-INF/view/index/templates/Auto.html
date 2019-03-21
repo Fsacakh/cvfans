@@ -1,0 +1,11 @@
+<div class="barbodycon">
+	<ul class="list-group" style="width:100%">
+		<#list result.list as auto>
+			<li class="list-group-item"><a href="#"><img src="${contextPath + '/' + auto['LOGO_FILE']?default('images/auto/default.jpg')}" width="50px"/><span style="padding-left:20px;">${auto['PLATE_NO']?default('')}(${auto['BRAND_NAME']?default('')}-${auto['MODEL_NAME']?default('')})</span></a></li>
+		</#list>
+	</ul>
+	<div class="clear"></div>
+</div>
+<div class="barbodytitle">
+	注册车辆<a href="#">${result.pagination.totalRows}</a>辆
+</div>

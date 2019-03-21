@@ -1,0 +1,21 @@
+<head>
+	<title>服务站管理</title>
+</head>
+
+<body>
+	<#include "./StationDetail.html">
+	<#include "./StationImage.html">
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var param = {
+				action:'edit',
+				data:{stationId:$('#ownerId').val()}
+			};
+			
+			$("#Page_StationDetail").forward(param);
+			
+			$("#Page_StationDetail #btn_back").addClass("hidden");
+		});
+	</script>
+</body>

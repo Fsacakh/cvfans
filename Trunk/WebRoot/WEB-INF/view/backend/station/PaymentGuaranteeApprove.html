@@ -1,0 +1,55 @@
+<div id="Page_PaymentGuaranteeApprove" data-role='page' class="row hidden">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		<li>支付担保审批</li> </@macro.Breadcrumb>
+
+		<form id="frm_guarantee" class="form-horizontal">
+			<input type="hidden" id="guaranteeId" name="guaranteeId" />
+			<input type="hidden" id="serviceId" name="serviceId" /> 
+			
+			<div>
+				<strong><label><font size="3" color="black">支付担保申请</font></label></strong>
+				<hr>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="申请担保客户"  readonly="true" 
+						deserialized="false" name="stationId" /></div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12"><@macro.form_textarea label="申请描述"  readonly="true" 
+					deserialized="false" name="applComment" span="2,10" placeholder="申请事项详细以及相关说明描述......"/>
+				</div>
+			</div>
+
+			<div id="appr" class="">
+				<div>
+					<strong><label><font size="3" color="black">支付担保审批</font></label></strong>
+					<hr>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-6">
+						<@macro.form_select name="apprResult" initial="0" label="审批结果" bind="APPR_RESULT">
+						<option value="2">担保</option>
+						<option value="0">不担保</option>
+						</@macro.form_select>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12"><@macro.form_textarea label="审批描述"
+						name="apprComment" 
+						span="2,10" placeholder="审批相关说明描述......"/></div>
+				</div>
+			</div>
+			<div class="space12"></div>
+			<div class="row ">
+				<div class="col-lg-12" style="text-align: center;">
+					<@macro.button_save form="frm_guarantee" label="提交"/>
+					<@macro.button_back/></div>
+			</div>
+		</form>
+	</div>
+</div>	

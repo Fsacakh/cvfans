@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="source_generator" basedir="." default="">
+	<property name="base.path" value="E:/workspace/Auto/source/Trunk/architype"/>
+	<property name="template.path" value="${base.path}/templates"/>	
+	<property name="entity.file" value="${base.path}/entities/ScoreEntity.xml"/>
+	<property name="output.path" value="${base.path}/output"/>
+		
+	<taskdef name="EntityBuildTask" classname="com.app.build.EntityBuildTask"></taskdef>   
+	<taskdef name="CodeBuildTask" classname="com.app.build.CodeBuildTask"></taskdef>    
+	
+	<target name="entity.build" description="Create entity object">
+		<echo message="${entity.file}"/>
+		<EntityBuildTask driver="com.mysql.jdbc.Driver"
+						 url="jdbc:mysql://192.168.168.109:3306/db_auto_alliance?useUnicode=true&amp;characterEncoding=utf-8"
+						 userName="root"
+						 password="ftp123"
+						 tableName="T_AUTO_SCORE_INFO"
+						 templatePath="${template.path}"
+						 templateFile="entity.ftl"
+						 outputFile="${entity.file}"
+		/>
+	</target>
+	
+	<target name="java.bean.build" description="Create entity object">
+		<CodeBuildTask 		templatePath="${template.path}"
+							templateFile="bean.ftl"
+							entityFile="${entity.file}"
+							outputFile="${output.path}/java/com/auto/entity/ScoreEntity.java"
+		/>
+	</target>
+	
+	<target name="page.form.build" description="Create entity object">
+		<CodeBuildTask 		templatePath="${template.path}"
+							templateFile="detail.ftl"
+							entityFile="${entity.file}"
+							outputFile="${output.path}/view/admin/RoleDetail.html"
+		/>
+	</target>
+	
+	<target name="page.list.build" description="Create entity object">
+		<CodeBuildTask 		templatePath="${template.path}"
+							templateFile="list.ftl"
+							entityFile="${entity.file}"
+							outputFile="${output.path}/view/admin/RoleList.html"
+		/>
+	</target>
+	
+	<target name="page.management.build" description="Create entity object">
+		<CodeBuildTask 		templatePath="${template.path}"
+							templateFile="detail.ftl"
+							entityFile="${entity.file}"
+							outputFile="${output.path}/view/admin/RoleManagement.html"
+		/>
+	</target>
+	
+	<target name="page.script.build" description="Create entity object">
+		<CodeBuildTask 		templatePath="${template.path}"
+							templateFile="javascript.ftl"
+							entityFile="${entity.file}"
+							outputFile="${output.path}/js/admin/RoleManangement.js"
+		/>
+	</target>
+</project>

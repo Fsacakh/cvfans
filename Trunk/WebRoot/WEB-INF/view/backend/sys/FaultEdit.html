@@ -1,0 +1,65 @@
+<div id="Page_FaultEditView" data-role='page' class="row hidden">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+			<li>常见故障编辑</li>
+		</@macro.Breadcrumb>
+
+		<form id="frm_fault_edit" class="form-horizontal"  enctype="multipart/form-data">
+			<input type="hidden" id="faultId" name="faultId"/>
+			
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="标题"
+					name="title" /></div>
+				<div class="col-lg-6"><@macro.form_file label="图片"
+					name="icon" /></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6">	
+					<div class="form-group">
+						<label class="control-label col-lg-4">类型</label>
+						<div class="col-lg-8">
+							<label class="checkbox-inline">
+						      <input type="radio" name="type" id="type1" 
+						         value="1" checked>转载
+						   	</label>
+						   	<label class="checkbox-inline">
+						      <input type="radio" name="type" id="type2" 
+						         value="2">原创
+						   	</label>
+						</div>
+					</div>
+				</div>
+   
+				<div class="col-lg-6"><@macro.form_text label="来源"
+					name="source" /></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text	label="作者" name="author"/></div>
+				<div class="col-lg-6"><@macro.form_text label="编辑"
+					name="editor" /></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<@macro.form_textarea label="内容" name="content" rows="30" span="2,10" />
+				</div>
+			</div>
+			
+			<div class="space12"></div>
+			<div class="row ">
+				<div class="col-lg-12" style="text-align:center">
+					<@macro.button_save form="frm_station"/> <@macro.button_back/></div>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
+
+
+
+
+

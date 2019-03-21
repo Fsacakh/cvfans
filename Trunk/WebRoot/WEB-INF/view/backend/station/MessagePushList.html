@@ -1,0 +1,46 @@
+<div id="Page_PushMessageListView" class="row" data-role="page">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		  	<li>
+		  	   <a>消息推送</a>
+		  	</li>
+		  	<li>
+		  	   <a>推送消息查询</a>
+		  	</li>
+		</@macro.Breadcrumb>	
+		
+		<div class="row" >
+			<div class="col-lg-12">
+				<form id="frm_pushmessage_query" class="form-horizontal">
+				   <div class="row">	
+				     <div class="col-lg-8">	
+					 </div>
+					<div class="col-lg-4" style="text-align: right">
+					        <input type="hidden"  name ="pushId"  id ="pushId"/>
+					        <input type="hidden"  name ="status"  id ="status"  value="1"/>
+					        <button style="display:none;"  name="refresh"  id="refresh" ></button>
+					        <@macro.button_add    page="Page_PushMessageDetailEdit"/>
+	        				<@macro.button_delete   table="datatable_pushinfo" url="/Persist/PushInfo/Delete.action" message="确定删除当前推送消息?" success="refresh" />
+					</div>
+				   </div>
+				</form>
+			</div>
+		</div>	 
+		   
+		<div class="row" style="margin-top:10px">
+			<@macro.dataTable id="datatable_pushinfo" statement="cvfans.queryPushListInfos" criteria="frm_pushinfo_query">
+				<thead>
+					<tr role="row">
+						<th tabindex="0"><div class="checkbox" style="width:20px;"> <label><input type="checkbox" class="dataTable_selectAll"/></label></div></th>
+						<th>推送标题</th>
+						<th>推送时间</th>
+						<th>内容</th>
+						<th>状态</th>
+						<th></th>
+					</tr>	
+				</thead>
+				<tbody/>
+			</@macro.dataTable>
+		</div>
+	</div>
+</div>

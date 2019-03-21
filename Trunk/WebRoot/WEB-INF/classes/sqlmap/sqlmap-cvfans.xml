@@ -1,0 +1,817 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<mapper namespace="cvfans">
+	<statement id="queryDriverInfos" desc="查询卡车司机信息">  
+		<![CDATA[
+		    SELECT *
+		    FROM T_AUTO_DRIVER WHERE IS_DELETED=0
+		     <#if name?default('') != ''>
+		    	AND Name like concat('%',:name,'%')
+		    </#if>
+		    
+		    <#if mobileNo?default('') != ''>
+		    	AND MOBILE_NO like concat('%',:mobileNo,'%')
+		    </#if>
+		    
+		    <#if licenseNo?default('') != ''>
+		    	AND LICENSE_NO like concat('%',:licenseNo,'%')
+		    </#if>
+		    
+		    <#if driverId?default('') != ''>
+		    	AND DRIVER_ID = :driverId
+		    </#if>
+		    
+		    <#if licenseAuthenticated?default('') != ''>
+		    	AND IFNULL(LICENSE_AUTHENTICATED,'0') = :licenseAuthenticated
+		    </#if>
+		    
+		    ORDER BY IFNULL(LICENSE_AUTHENTICATED,'0') DESC, CREATED_DATE DESC
+		]]>
+	</statement>
+	
+	<statement id="queryStationDiscountInfos" desc="查询服务站折扣信息">  
+		<![CDATA[
+		    SELECT *
+		    FROM T_AUTO_STATION_DISCOUNT WHERE IS_DELETED=0 AND STATION_ID=:user.ownerId
+			
+			<#if item?default('') != ''>
+		    	AND ITEM like concat('%',:item,'%')
+		    </#if>
+		]]>
+	</statement>
+	
+	<statement id="queryStationDiscountInfos_f" desc="查询服务站折扣信息(前端)">  
+		<![CDATA[
+		    SELECT *
+		    FROM T_AUTO_STATION_DISCOUNT WHERE IS_DELETED=0 
+			
+			 <#if stationId?default('') != ''>
+		    	AND STATION_ID=:stationId
+		    </#if>
+		    
+		]]>
+	</statement>
+	
+	<statement id="queryStationPromotionInfos" desc="查询服务站促销信息">  
+		<![CDATA[
+		    SELECT *
+		    FROM T_AUTO_STATION_PROMOTION WHERE IS_DELETED=0 and STATION_ID=:user.ownerId
+			
+			<#if title?default('') != ''>
+		    	AND TITLE like concat('%',:title,'%')
+		    </#if>
+		]]>
+	</statement>
+	
+	<statement id="queryStationPromotionInfos_f" desc="查询服务站促销信息(前端)">  
+		<![CDATA[
+		    SELECT *
+		    FROM T_AUTO_STATION_PROMOTION
+		    WHERE IS_DELETED=0  
+		    <#if stationId?default('') != ''>
+		    	AND STATION_ID=:stationId
+		    </#if>
+		]]>
+	</statement>
+	
+	<statement id="queryStationPromotionInfos_all" desc="查询服务站促销信息(前端)">  
+		<![CDATA[
+		    SELECT PROMOTION.*, STATION.NAME
+		    FROM T_AUTO_STATION_PROMOTION PROMOTION, T_AUTO_STATION STATION
+		    WHERE PROMOTION.IS_DELETED=0 AND PROMOTION.STATION_ID = STATION.STATION_ID
+		    ORDER BY PROMOTION.CREATED_DATE DESC  
+		]]>
+	</statement>
+	
+	<statement id="queryStationPromotionInfos_all_1" QueryHook="Row2ColQueryHook" desc="点击更多后查询服务站促销信息，需要行转列">  
+		<![CDATA[
+		    SELECT PROMOTION.*, STATION.NAME, STATION.LOGO_FILE, STATION.CONTACT_TEL, STATION.ADDRESS
+		    FROM T_AUTO_STATION_PROMOTION PROMOTION, T_AUTO_STATION STATION
+		    WHERE PROMOTION.IS_DELETED=0 AND PROMOTION.STATION_ID = STATION.STATION_ID
+		    ORDER BY PROMOTION.CREATED_DATE DESC  
+		]]>
+	</statement>
+	
+	<statement id="queryStationDiscountInfos_all" desc="点击更多后查询服务站促销信息，需要行转列">  
+		<![CDATA[
+		    SELECT DISCOUNT.*, STATION.NAME
+		    FROM T_AUTO_STATION_DISCOUNT DISCOUNT, T_AUTO_STATION STATION
+		    WHERE DISCOUNT.IS_DELETED=0 AND DISCOUNT.STATION_ID = STATION.STATION_ID
+		    ORDER BY DISCOUNT.CREATED_DATE DESC  
+		]]>
+	</statement>
+	
+	<statement id="queryStationDiscountInfos_all_1" QueryHook="Row2ColQueryHook" desc="点击更多后查询服务站促销信息，需要行转列">  
+		<![CDATA[
+		    SELECT DISCOUNT.*, STATION.NAME, STATION.LOGO_FILE, STATION.CONTACT_TEL, STATION.ADDRESS
+		    FROM T_AUTO_STATION_DISCOUNT DISCOUNT, T_AUTO_STATION STATION
+		    WHERE DISCOUNT.IS_DELETED=0 AND DISCOUNT.STATION_ID = STATION.STATION_ID
+		    ORDER BY DISCOUNT.CREATED_DATE DESC  
+		]]>
+	</statement>
+	
+	<statement id="queryAutoServiceInfos" desc="查询车辆担保维修单服务信息">  
+		<![CDATA[
+		    SELECT SERVICE.*, AUTO.PLATE_NO, AUTO.OWNER_NAME, AUTO.OWNER_CONTACTER, AUTO.OWNER_CONTACT_TEL
+		    FROM T_AUTO_SERVICE SERVICE, 
+		    	 T_AUTO_INFO AUTO
+		    WHERE SERVICE.IS_DELETED=0 AND SERVICE.AUTO_ID = AUTO.AUTO_ID AND SERVICE.STATION_ID=:user.ownerId 
+			<#if serviceCode?default('') != ''>
+		    	AND SERVICE_CODE LIKE  concat('%',:serviceCode,'%')
+		    </#if>
+		]]>
+	</statement>
+	
+	<statement id="queryAutoInfoForService" desc="根据车牌号获取车辆所属车管及其担保服务站">  
+		<![CDATA[
+		    SELECT AUTO.*, AUTO.PLATE_NO, ENTERPRISE.NAME ENTERPRISE_NAME, ENTERPRISE.CONTACTER ENTERPISE_CONTACTER, ENTERPRISE.CONTACT_TEL ENTERPRISE_TEL,
+		    	   GUARANTEE.NAME STATION_NAME, GUARANTEE.CONTACTER STATION_CONTACTER, GUARANTEE.CONTACT_TEL STATION_TEL
+		    FROM T_AUTO_INFO AUTO LEFT OUTER JOIN T_AUTO_ENTERPRISE ENTERPRISE ON AUTO.OWNER_ID = ENTERPRISE.ENTERPRISE_ID
+		    					  LEFT OUTER JOIN (	SELECT GUARANTEE.AUTO_ID, STATION.* 
+		    					  					FROM T_AUTO_GUARANTEE_INFO GUARANTEE, T_AUTO_STATION STATION 
+		    					  					WHERE GUARANTEE.STATION_ID = STATION.STATION_ID) GUARANTEE ON AUTO.AUTO_ID = GUARANTEE.AUTO_ID
+		    WHERE AUTO.IS_DELETED = 0
+		     
+			<#if plateNo?default('') != ''>
+		    	AND AUTO.PLATE_NO LIKE  concat('%',:plateNo,'%')
+		    </#if>
+		    
+		    <#if autoId?default('') != ''>
+		    	AND AUTO.AUTO_ID = :autoId
+		    </#if>
+		]]>
+	</statement>
+	
+	<statement id="queryAutoInfos" desc="车辆信息查询">  
+		<![CDATA[
+		    SELECT AUTO.*, ENTERPRISE.NAME, ENTERPRISE.CONTACTER, ENTERPRISE.CONTACT_TEL
+		    FROM T_AUTO_INFO AUTO, T_AUTO_ENTERPRISE ENTERPRISE
+		    WHERE AUTO.IS_DELETED=0 AND AUTO.OWNER_ID = ENTERPRISE.ENTERPRISE_ID 
+		    
+		    <#if autoId?default('') != ''>
+		    	AND AUTO_ID = :autoId
+		    </#if>
+		    
+		    <#if plateNo?default('') != ''>
+		    	AND AUTO.PLATE_NO LIKE  concat('%',:plateNo,'%')
+		    </#if>
+		    
+		   <#if name?default('') != ''>
+		    	AND ENTERPRISE.NAME like concat('%',:name,'%')
+		    </#if>
+		]]>
+	</statement>
+	
+	<statement id="queryAutoInfos4sys" desc="车辆信息查询">  
+		<![CDATA[
+		    SELECT AUTO.*
+		    FROM T_AUTO_INFO AUTO
+		    WHERE AUTO.IS_DELETED=0 
+		    
+		    <#if autoId?default('') != ''>
+		    	AND AUTO_ID = :autoId
+		    </#if>
+		    
+		    <#if plateNo?default('') != ''>
+		    	AND AUTO.PLATE_NO LIKE  concat('%',:plateNo,'%')
+		    </#if>
+		]]>
+	</statement>
+	
+	<statement id="queryEnterpriseInfos" desc="车管信息查询">  
+		<![CDATA[
+		    SELECT * 
+		    FROM T_AUTO_ENTERPRISE  WHERE IS_DELETED=0
+		    <#if name?default('') != ''>
+		    	AND NAME like concat('%',:name,'%')
+		    </#if>	
+		    
+		]]>
+	</statement>
+	
+	<statement id="queryStationInfos" desc="服务站信息查询">  
+		<![CDATA[
+			SELECT 	STATION.STATION_ID,PARENT_ID,STATION.NAME,PROVINCE,PROVINCE_NAME,CITY,CITY_NAME,AREA,AREA_NAME,ADDRESS,QUALIFICATION,
+		   			BRAND, SUB_BRAND, IFNULL(LOGO_FILE,BRAND_LOGO.EXT_VALUE) LOGO_FILE, IFNULL(FAVORITE.FAVORITE_ID,0) FAVORITE_ID,
+		   			LICENSE_FILE,IS_MEMBER,CONTACTER,CONTACT_TEL,FAX,SERVICE_MEMO,BRIEF_INTRO,DISCOUNT_FLAG,PROMOTION_FLAG,ACCOUNT_BANK,
+		   			ACCOUNT_NO,PRAISE_RATE,COMMENT_COUNT,GENERAL_SCORE,PRICE_SCORE,QUALITY_SCORE,TIME_SCORE,POS_LONG,POS_LAT,
+		   			USER_STATUS,STATION.CREATED_USER_ID,STATION.CREATED_DATE,STATION.UPDATED_USER_ID,STATION.UPDATED_DATE,STATION.IS_DELETED,BEHAVIOR_SCORE,SERVICE_NUM,
+					(( 2*ATAN2(SQRT( (sin(((:posLat-POS_LAT)*PI()/180.0)/2)*sin(((:posLat-POS_LAT)*PI()/180.0)/2)+cos(:posLat*PI()/180)*cos(POS_LAT*PI()/180)*sin(((:posLong-POS_LONG)*PI()/180)/2)*sin(((:posLong-POS_LONG)*PI()/180)/2))),SQRT(1- (sin(((:posLat-POS_LAT)*PI()/180.0)/2)*sin(((:posLat-POS_LAT)*PI()/180.0)/2)+cos(:posLat*PI()/180)*cos(POS_LAT*PI()/180)*sin(((:posLong-POS_LONG)*PI()/180)/2)*sin(((:posLong-POS_LONG)*PI()/180)/2)))))*6378.137) as DISTANCE,
+					STATION.RESERVATION_USER,STATION.RESERVATION_PHONE,STATION.STATION_SERVICE, STATION.AUTO_SALE_USER, STATION.AUTO_SALE_PHONE, STATION.PART_SALE_USER, STATION.PART_SALE_PHONE
+			FROM T_AUTO_STATION STATION LEFT OUTER JOIN (SELECT FAVORITE_ID, STATION_ID FROM T_AUTO_FAVORITE_INFO WHERE CREATED_USER_ID = :user.userId) FAVORITE ON STATION.STATION_ID = FAVORITE.STATION_ID, (SELECT NAME, EXT_VALUE FROM T_SYS_DATA WHERE PARENT_ID=2 AND IS_DELETED=0) BRAND_LOGO
+			WHERE STATION.IS_DELETED=0 
+	
+		    <#if brand?default('') != ''>
+		    	AND BRAND_LOGO.NAME = :brand AND INSTR(CONCAT(',', STATION.BRAND,',',IFNULL(STATION.SUB_BRAND, ''),','), concat(',',:brand,',')) >0
+		    <#else>
+		    	AND STATION.BRAND = BRAND_LOGO.NAME
+		    </#if>
+		    
+		    <#if distance?default('') != ''&&posLat?default('') != ''&&posLong?default('') != ''>
+		    	AND (( 2*ATAN2(SQRT( (sin(((:posLat-POS_LAT)*PI()/180.0)/2)*sin(((:posLat-POS_LAT)*PI()/180.0)/2)+cos(:posLat*PI()/180)*cos(POS_LAT*PI()/180)*sin(((:posLong-POS_LONG)*PI()/180)/2)*sin(((:posLong-POS_LONG)*PI()/180)/2))),SQRT(1- (sin(((:posLat-POS_LAT)*PI()/180.0)/2)*sin(((:posLat-POS_LAT)*PI()/180.0)/2)+cos(:posLat*PI()/180)*cos(POS_LAT*PI()/180)*sin(((:posLong-POS_LONG)*PI()/180)/2)*sin(((:posLong-POS_LONG)*PI()/180)/2)))))*6378.137)<=:distance  
+		    </#if>
+		    
+		    <#if stationId?default('') != ''>
+		    	AND STATION.STATION_ID = :stationId
+		    </#if>
+		    
+		    <#if name?default('') != ''>
+		    	AND STATION.NAME like concat('%',:name,'%')
+		    </#if>
+		    
+		    <#if member?default('') != ''>
+		    	AND IFNULL(STATION.IS_MEMBER,'0') = :member
+		    </#if>
+		    
+		    <#if parentId?default('') != ''>
+		    	AND IF(STATION.PARENT_ID  is null,'0','1') = :parentId
+		    </#if>
+		    
+		    <#if provinceName?default('') != ''>
+		    	AND STATION.PROVINCE_NAME like concat('%',:provinceName,'%')
+		    </#if>
+		    
+		    <#if cityName?default('') != ''>
+		    	AND STATION.CITY_NAME like concat('%',:cityName,'%')
+		    </#if>
+		    
+		    <#if areaName?default('') != ''>
+		    	AND AREA_NAME like concat('%',:areaName,'%')
+		    </#if>
+		    
+		     <#if isMember?default('') != ''>
+		    	AND STATION.IS_MEMBER=:isMember
+		    </#if>
+		    
+		    <#if brand?default('') != ''||isMember?default('') != ''||distance?default('') != ''||posLat?default('') != ''||posLong?default('') != ''>
+		    	AND POS_LONG<>''  AND POS_LONG<>'NULL' AND POS_LAT<>'' AND POS_LAT<>'NULL' AND POS_LONG IS NOT NULL AND POS_LAT IS NOT NULL
+		    </#if>
+		    
+		    <#if posLat?default('') != ''&&posLong?default('') != ''>
+		    	ORDER BY IFNULL(IS_MEMBER,0) DESC, DISTANCE ASC
+		    <#else>
+		    	ORDER BY IFNULL(STATION.IS_MEMBER,0) DESC, STATION.UPDATED_DATE DESC
+		    </#if> 
+		]]>
+	</statement>
+	
+	<statement id="queryStationInfo" desc="服务站信息查询">  
+		<![CDATA[
+			SELECT 	STATION.STATION_ID,PARENT_ID,STATION.NAME,PROVINCE,PROVINCE_NAME,CITY,CITY_NAME,AREA,AREA_NAME,ADDRESS,QUALIFICATION,
+		   			CONCAT(IFNULL(BRAND,''),'  ',REPLACE(IFNULL(SUB_BRAND,''),',','  ')) BRAND, IFNULL(LOGO_FILE,BRAND_LOGO.EXT_VALUE) LOGO_FILE,
+		   			LICENSE_FILE,IS_MEMBER,CONTACTER,CONTACT_TEL,FAX,REPLACE(IFNULL(SERVICE_MEMO,''),',','  ') SERVICE_MEMO,BRIEF_INTRO,DISCOUNT_FLAG,PROMOTION_FLAG,ACCOUNT_BANK,
+		   			ACCOUNT_NO,PRAISE_RATE,COMMENT_COUNT,GENERAL_SCORE,PRICE_SCORE,QUALITY_SCORE,TIME_SCORE,POS_LONG,POS_LAT,
+		   			USER_STATUS,STATION.CREATED_USER_ID,STATION.CREATED_DATE,STATION.UPDATED_USER_ID,STATION.UPDATED_DATE,STATION.IS_DELETED,BEHAVIOR_SCORE,SERVICE_NUM,
+					STATION.RESERVATION_USER,STATION.RESERVATION_PHONE,STATION.STATION_SERVICE, AUTO_SALE_USER, AUTO_SALE_PHONE, PART_SALE_USER, PART_SALE_PHONE
+			FROM T_AUTO_STATION STATION , (SELECT NAME, EXT_VALUE FROM T_SYS_DATA WHERE PARENT_ID=2) BRAND_LOGO
+			WHERE STATION.IS_DELETED=0 and STATION_ID = :stationId
+			
+			<#if brand?default('') != ''>
+		    	AND BRAND_LOGO.NAME = :brand 
+		    <#else>
+		    	AND STATION.BRAND = BRAND_LOGO.NAME
+		    </#if>
+		]]>
+	</statement>
+	
+	<statement id="queryStationInfos_10" desc="服务站信息查询(首页显示的推荐10家)">  
+		<![CDATA[
+		   SELECT STATION.*  
+		   FROM T_AUTO_STATION STATION  
+		   WHERE  STATION.IS_DELETED=0 AND STATION.IS_MEMBER=1 
+		   ORDER BY STATION.GENERAL_SCORE DESC 
+		   limit 10 
+		]]>
+	</statement>
+	
+	<statement id="queryReadedStationInfos" desc="服务站信息查询(首页显示的推荐10家)">  
+		<![CDATA[
+		   SELECT STATION.*  
+		   FROM T_AUTO_STATION STATION, T_SYS_USER_READ_INFO READ_INFO  
+		   WHERE  STATION.STATION_ID = READ_INFO.OBJECT_ID AND 
+		   		  STATION.IS_DELETED=0 
+		   ORDER BY READ_INFO.CREATED_DATE DESC 
+		   limit 10 
+		]]>
+	</statement>
+	
+	<statement id="queryStationInfos_11" desc="前端服务站查询脚本">  
+		<![CDATA[
+			SELECT STATION.*  
+			FROM T_AUTO_STATION STATION  
+			WHERE  STATION.IS_DELETED=0 
+		   	
+		   	<#if name?exists>
+		   		AND NAME like concat('%',:name,'%')
+		   	</#if>
+		   	
+		   	<#if selected_provinces?exists>
+		   		AND (
+		   		<#list selected_provinces?split(",") as province>
+		   			<#if province_index gt 0>
+		   				OR 
+		   			</#if>
+			  		
+			  		PROVINCE_NAME='${province}'
+				</#list>
+				)
+		   	</#if>
+		   	
+		   	<#if selected_brands?exists>
+		   		AND (
+		   		<#list selected_brands?split(",") as brand>
+		   			<#if brand_index gt 0>
+		   				OR 
+		   			</#if>
+			  		
+			  		BRAND = '${brand}'
+				</#list>
+				)
+		   	</#if>
+		]]>
+	</statement>
+	
+	<statement id="queryStationInfos_sub" desc="二级服务站信息查询">  
+		<![CDATA[
+		    SELECT *
+		    FROM T_AUTO_STATION WHERE IS_DELETED=0 and PARENT_ID=:user.ownerId 
+		    
+		     <#if name?default('') != ''>
+		    	AND NAME like concat('%',:name,'%')
+		    </#if>
+		    
+		     <#if brand?default('') != ''>
+		    	AND BRAND like concat('%',:brand,'%')
+		    </#if>
+		]]>
+	</statement>
+	
+	<statement id="queryAutoInfos_enterprise" desc="车队车辆信息查询（车管）">  
+		<![CDATA[
+		  	SELECT AUTO.*
+		    FROM T_AUTO_INFO AUTO
+		    WHERE AUTO.IS_DELETED=0 AND AUTO.OWNER_ID = :user.ownerId 
+		    
+		    <#if plateNo?default('') != ''>
+		    	AND AUTO.PLATE_NO LIKE  concat('%',:plateNo,'%')
+		    </#if>
+		]]>
+	</statement>
+	
+	<statement id="queryAutoServiceInfos_enterprise" desc="查询车辆担保维修单服务信息（车管）">  
+		<![CDATA[
+		 SELECT  AUTO.PLATE_NO, SERVICE.*, STATION.NAME STATION_NAME
+		 FROM T_AUTO_INFO AUTO, T_AUTO_SERVICE SERVICE, T_AUTO_STATION STATION
+		 WHERE AUTO.AUTO_ID = SERVICE.AUTO_ID AND SERVICE.STATION_ID = STATION.STATION_ID
+		 
+		 <#if plateNo?default('') != ''>
+	    	AND AUTO.PLATE_NO LIKE  concat('%',:plateNo,'%')
+	     </#if>
+	     
+	     <#if autoId?default('') != ''>
+	    	AND AUTO.AUTO_ID = :autoId
+	     </#if>
+	     
+	     <#if enterpriseId?default('') != ''>
+	    	AND AUTO.OWNER_ID=:enterpriseId
+	     </#if>
+	     
+	      <#if serviceId?default('') != ''>
+	    	AND SERVICE.SERVICE_ID=:serviceId
+	     </#if>
+		]]> 
+	</statement>
+	
+	<statement id="queryStationAutoGuaranteeInfos" desc="服务站车辆担保查询">  
+		<![CDATA[
+		    SELECT AUTO.*, GUARANTEE.GUARANTEE_ID
+		    FROM T_AUTO_GUARANTEE_INFO GUARANTEE, T_AUTO_INFO AUTO
+		    WHERE GUARANTEE.AUTO_ID = AUTO.AUTO_ID 
+		    	  AND AUTO.GUARANTEE != 0 AND GUARANTEE.IS_DELETED=0
+		    	  AND GUARANTEE.STATION_ID=:user.ownerId
+		     
+		    <#if plateNo?default('') != ''>
+		    	AND AUTO.PLATE_NO LIKE  concat('%',:plateNo,'%')
+		    </#if>
+		]]>
+	</statement>
+	
+	<statement id="queryAutoGuaranteeInfo" desc="服务站车辆担保查询">  
+		<![CDATA[
+		    SELECT 	AUTO.PLATE_NO, 
+		    		CASE AUTO.OWNER_TYPE
+		    		WHEN 1 	THEN OWNER_NAME
+		    		WHEN 2	THEN CONCAT('(个人)', CONTACTER)
+		    		END ENTERPRISE_NAME, STATION.NAME STATION_NAME, GUARANTEE.*
+		    FROM T_AUTO_GUARANTEE_INFO GUARANTEE, T_AUTO_INFO AUTO, T_AUTO_STATION STATION
+		    WHERE AUTO.AUTO_ID = GUARANTEE.AUTO_ID 
+		          AND GUARANTEE.STATION_ID = STATION.STATION_ID AND GUARANTEE.GUARANTEE_ID=:guaranteeId
+		]]>
+	</statement>
+	
+	<statement id="queryEnterpriseAutoGuaranteeInfos" desc="车管担保车辆查询">  
+		<![CDATA[
+		    SELECT AUTO.*, GUARANTEE.GUARANTEE_ID,GUARANTEE.APPL_DATE
+		    FROM T_AUTO_INFO AUTO LEFT OUTER JOIN (	SELECT GUARANTEE.GUARANTEE_ID,GUARANTEE.APPL_DATE,GUARANTEE.APPR_RESULT, GUARANTEE.AUTO_ID
+		    										FROM T_AUTO_GUARANTEE_INFO GUARANTEE
+		    										WHERE GUARANTEE.IS_DELETED=0) GUARANTEE ON AUTO.AUTO_ID = GUARANTEE.AUTO_ID
+		    WHERE AUTO.IS_DELETED=0 AND auto.OWNER_ID = :user.ownerId
+		     
+		     <#if plateNo?default('') != ''>
+		    	AND AUTO.PLATE_NO LIKE  concat('%',:plateNo,'%')
+		    </#if>
+		]]>
+	</statement>
+	
+	<statement id="queryStationListByRange" desc="根据经纬度查询一定范围内的服务站">  
+		<![CDATA[
+			SELECT * FROM T_AUTO_STATION 
+		  	WHERE POS_LAT > :posLat-1 AND POS_LAT < :posLat+1 AND POS_LONG > :posLong-1 AND POS_LONG < :posLong+1
+		    AND IS_DELETED=0 AND POS_LONG<>''  AND POS_LONG<>'NULL' AND POS_LAT<>'' AND POS_LAT<>'NULL'
+		    ORDER BY 
+            ACOS(SIN((:posLat * 3.1415) / 180 ) *SIN((POS_LAT * 3.1415) / 180 ) +COS((:posLat * 3.1415) / 180 ) * COS((POS_LAT * 3.1415) / 180 ) *COS((:posLong* 3.1415) / 180 - (POS_LONG * 3.1415) / 180 ) ) * 6380 ASC
+		
+			<#if limit?default(-1) != -1>
+			limit 0, :limit
+			</#if>
+		]]>
+	</statement>
+	
+	<statement id="queryStationCommentInfo" desc="服务站评价查询">  
+		<![CDATA[
+		    SELECT COMMENT.*, DRIVER.NICK_NAME DRIVER_NAME, DRIVER.MOBILE_NO
+		    FROM T_AUTO_STATION_COMMENT COMMENT, T_AUTO_DRIVER DRIVER
+		    WHERE 	COMMENT.DRIVER_ID = DRIVER.DRIVER_ID AND
+		    		COMMENT.IS_DELETED = 0 AND
+		    		COMMENT.STATION_ID=:stationId
+		    ORDER BY COMMENT.CREATED_DATE DESC
+		]]>
+	</statement>
+	
+	<statement id="queryDataInfoes" desc="检索字典数据">  
+		<![CDATA[
+		    SELECT DATA.*
+		    FROM T_SYS_DATA DATA
+		    WHERE 	EXISTS (SELECT * FROM T_SYS_DATA PARENT WHERE DATA.PARENT_ID = PARENT.ID AND PARENT.LABEL=:label)
+		]]>
+	</statement>
+	
+	<statement id="queryFaultInfoes" desc="常见故障查询">  
+		<![CDATA[
+		    SELECT *
+		    FROM T_AUTO_FAULT_INFO
+		]]>
+	</statement>
+	
+	<statement id="queryServiceInfo_Driver" desc="司机车辆维修单查询(手机端)">  
+		<![CDATA[
+		    SELECT 
+			(CASE
+			WHEN SERVICE.PAY_MODE=1 AND SERVICE.PAYMENT_STATUS IS NULL   THEN '担保中'
+			WHEN SERVICE.PAY_MODE=1 AND SERVICE.PAYMENT_STATUS='0'   THEN '担保中'
+		 	WHEN SERVICE.PAYMENT_STATUS IS NULL   THEN '未支付'
+			WHEN SERVICE.PAYMENT_STATUS='0' THEN '未支付'
+			WHEN SERVICE.PAYMENT_STATUS='1' THEN '已支付'
+			END) PAYMENT_STATUS,SERVICE.SERVICE_ID,SERVICE.STATION_ID,SERVICE.SERVICE_CODE,SERVICE.AUTO_ID,SERVICE.ENTER_DATE,STATION.NAME  FROM T_AUTO_SERVICE SERVICE ,T_AUTO_STATION STATION
+		   	WHERE STATION.STATION_ID=SERVICE.STATION_ID AND SERVICE.IS_DELETED=0 AND SERVICE.DRIVER_ID=:driverId
+		   	ORDER BY SERVICE.CREATED_DATE DESC
+		]]>
+	</statement>
+	
+	
+	<statement id="queryAutoInfoList_p" desc="司机车辆列表查询(手机端)">  
+		<![CDATA[
+		   SELECT  
+			  (CASE
+				WHEN  GUARANTEE IS NULL THEN '未担保'
+				WHEN  GUARANTEE='0'  THEN '未担保'
+				WHEN  GUARANTEE='1'  THEN '申请中'
+				WHEN  GUARANTEE='2'  THEN '担保中'
+			    END)  GUARANTEE,PLATE_NO,AUTO_ID  FROM  T_AUTO_INFO 
+			    WHERE  IS_DELETED=0  AND OWNER_ID=:driverId
+			    ORDER BY CREATED_DATE DESC
+		]]>
+	</statement>
+	
+	<statement id="queryAutoInfo_p" desc="司机车辆详情查询(手机端)">  
+		<![CDATA[
+		    <#if ownerRole=="1">
+			   SELECT  AUTO.PLATE_NO,(CASE
+					WHEN  AUTO.CERTIFICATION IS NULL THEN DRIVER.NICK_NAME
+					WHEN  AUTO.CERTIFICATION='0'  THEN DRIVER.NICK_NAME
+					WHEN  AUTO.CERTIFICATION='1'  THEN DRIVER.NAME
+				    END)  NAME,
+				    (CASE
+						WHEN  AUTO.AUTO_LEVEL IS NULL THEN '0'
+						WHEN  AUTO.AUTO_LEVEL='' THEN '0'
+						WHEN  AUTO.AUTO_LEVEL IS NOT NULL THEN AUTO.AUTO_LEVEL
+				    END) AUTO_LEVEL,AUTO.GUARANTEE,AUTO.STATION_NAME,AUTO.SCORE,CONCAT(DRIVER.PROVINCE_NAME,DRIVER.CITY_NAME,DRIVER.AREA_NAME,DRIVER.ADDRESS)  ADDRESS,AUTO.BRAND_NAME,AUTO.MODEL_NAME,AUTO.ENGINE_NO,AUTO.FRAME_NO,AUTO.LICENSE_FILE,AUTO.BRAND 
+	 				FROM  T_AUTO_INFO AUTO,T_AUTO_DRIVER DRIVER
+	 				WHERE DRIVER.DRIVER_ID=:driverId AND AUTO.AUTO_ID =:autoId AND AUTO.IS_DELETED=0
+		   <#elseif  ownerRole=="3">
+		  		SELECT  AUTO.PLATE_NO,ENTERPRISE.NAME,
+		  		(CASE
+						WHEN  AUTO.AUTO_LEVEL IS NULL THEN '0'
+						WHEN  AUTO.AUTO_LEVEL='' THEN '0'
+						WHEN  AUTO.AUTO_LEVEL IS NOT NULL THEN AUTO.AUTO_LEVEL
+				    END) AUTO_LEVEL,
+		  		AUTO.GUARANTEE,AUTO.SCORE,CONCAT(ENTERPRISE.PROVINCE_NAME,ENTERPRISE.CITY_NAME,ENTERPRISE.AREA_NAME,ENTERPRISE.ADDRESS)  ADDRESS,AUTO.BRAND_NAME,AUTO.MODEL_NAME,AUTO.ENGINE_NO,AUTO.FRAME_NO,AUTO.LICENSE_FILE 
+	 				FROM  T_AUTO_INFO AUTO,T_AUTO_ENTERPRISE ENTERPRISE
+	 				WHERE ENTERPRISE.ENTERPRISE_ID=:driverId AND AUTO.AUTO_ID =:autoId AND AUTO.IS_DELETED=0
+		   </#if>	
+		]]>
+	</statement>
+	
+	<statement id="driverAlbum_p" desc="司机相册列表查询(手机端)">  
+		<![CDATA[
+		   SELECT IMG_ID,IMG_URL,IMG_TITLE,IMG_MEMO,CREATED_DATE FROM  T_AUTO_DRIVER_ALBUM
+			    WHERE  IS_DELETED=0  AND DRIVER_ID=:driverId
+			    ORDER BY CREATED_DATE DESC
+		]]>
+	</statement>
+	
+	<statement id="queryAutoBrandInfoes" desc="车辆品牌查询">  
+		<![CDATA[
+		    select label,value,id from t_sys_data where category=2 and PARENT_ID='2'  group by label
+			order by CONVERT(label USING gbk)
+		]]>
+	</statement>
+	
+	<statement id="queryAutoModelInfoes" desc="根据车辆品牌查询品牌下面的型号">  
+		<![CDATA[
+		    SELECT  ID,LABEL,VALUE from T_SYS_DATA WHERE CATEGORY=2 AND  PARENT_ID=:id  GROUP BY LABEL ORDER BY VALUE
+		]]>
+	</statement>
+	
+	<statement id="queryProvinceInfoes" desc="全国省信息查询">  
+		<![CDATA[
+		    SELECT  ID,LABEL,VALUE from T_SYS_DATA WHERE CATEGORY=1 AND  PARENT_ID=1 group by label
+			order by CONVERT(label USING gbk)
+		]]>
+	</statement>
+	
+	<statement id="queryCityAreaInfoes" desc="市区信息">  
+		<![CDATA[
+		    SELECT  ID,LABEL,VALUE from T_SYS_DATA WHERE CATEGORY=1 AND  PARENT_ID=:id ORDER BY VALUE
+		]]>
+	</statement>
+	
+	<statement id="queryDriverInfo" desc="司机个人信息查询（手机端）">  
+		<![CDATA[
+		    SELECT 
+			(CASE
+				WHEN  DRIVER.BORN_DATE IS NULL OR  DRIVER.BORN_DATE='' OR  DRIVER.BORN_DATE='NULL'   THEN '未知'
+				WHEN  DRIVER.BORN_DATE IS NOT NULL AND DRIVER.BORN_DATE<>''  THEN DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(DRIVER.BORN_DATE)), '%Y')+0 
+			END)  AGE,
+			(CASE
+				WHEN DRIVER.PROVINCE_NAME='上海市' OR  DRIVER.PROVINCE_NAME='重庆市' OR  DRIVER.PROVINCE_NAME='北京市'  OR  DRIVER.PROVINCE_NAME='天津市' THEN  CONCAT(DRIVER.PROVINCE_NAME,DRIVER.AREA_NAME,DRIVER.ADDRESS)
+				WHEN DRIVER.PROVINCE_NAME  IS NOT NULL  OR DRIVER.CITY_NAME IS NOT NULL  OR  DRIVER.AREA_NAME IS NOT NULL THEN  CONCAT(DRIVER.PROVINCE_NAME,DRIVER.CITY_NAME,DRIVER.AREA_NAME,DRIVER.ADDRESS)
+			END)  ADDRESS,
+			(CASE
+				WHEN  DRIVER.LICENSE_DATE IS NULL OR  DRIVER.LICENSE_DATE='' OR  DRIVER.LICENSE_DATE='NULL'   THEN '未知'
+				WHEN  DRIVER.LICENSE_DATE IS NOT NULL AND DRIVER.LICENSE_DATE<>''  THEN DATE_FORMAT(FROM_DAYS(TO_DAYS(NOW())-TO_DAYS(DRIVER.LICENSE_DATE)), '%Y')+0 
+			END)  LICENSE_AGE,
+			(CASE
+				WHEN  DRIVER.LICENSE_AUTHENTICATED IS NULL THEN '未认证'
+				WHEN  DRIVER.LICENSE_AUTHENTICATED='0'  THEN '未认证'
+				WHEN  DRIVER.LICENSE_AUTHENTICATED='1'  THEN '认证通过'
+				WHEN  DRIVER.LICENSE_AUTHENTICATED='-1'  THEN '认证未通过'
+				WHEN  DRIVER.LICENSE_AUTHENTICATED='2'  THEN '待认证'
+			 END)  LICENSE_AUTHENTICATED,
+			(CASE
+				WHEN  DRIVER.MOBILE_BINDED IS NULL THEN '未绑定'
+				WHEN  DRIVER.MOBILE_BINDED ='0'  THEN '未绑定'
+				WHEN  DRIVER.MOBILE_BINDED='1'  THEN '已绑定'
+			 END)  MOBILE_BINDED,
+			(CASE
+				WHEN  DRIVER.MEMBER_SCORE IS NULL OR DRIVER.MEMBER_SCORE='' THEN '0'
+				WHEN  DRIVER.MEMBER_SCORE IS NOT NULL THEN DRIVER.MEMBER_SCORE
+			 END)  MEMBER_SCORE,
+			 DRIVER.DRIVER_ID, DRIVER.LICENSE_DATE,DRIVER.LOGO_FILE,DRIVER.MOBILE_NO,DRIVER.BORN_DATE,DRIVER.NICK_NAME,DRIVER.NAME,DRIVER.LICENSE_NO,DRIVER.LICENSE_FILE,DRIVER.MEMBER_LEVEL,DRIVER.PROVINCE_NAME,DRIVER.CITY_NAME,DRIVER.AREA_NAME,DRIVER.ADDRESS AS ADDRESS_DETAIL,AUTO.PLATE_NO,DRIVER.LICENSE_AUTHENTICATED_MEMO FROM T_AUTO_DRIVER DRIVER  LEFT  OUTER JOIN
+			 (SELECT PLATE_NO,OWNER_ID,IS_DELETED,CREATED_DATE  FROM T_AUTO_INFO AUTO WHERE AUTO.IS_DELETED=0 ORDER BY  AUTO.CREATED_DATE DESC) AUTO ON AUTO.OWNER_ID=DRIVER.DRIVER_ID 
+			WHERE  DRIVER.IS_DELETED=0   AND  DRIVER.DRIVER_ID=:driverId  LIMIT 1
+		]]>
+	</statement>
+	
+	<statement id="queryAutoServiceInfo_enterprise" desc="根据车辆品牌查询品牌下面的型号">  
+		<![CDATA[
+			SELECT	SERVICE.*, DRIVER.LICENSE_NO DRIVER_LICENSE_NO, DRIVER.NAME DRIVER_NAME, DRIVER.MOBILE_NO DRIVER_MOBILE_NO,
+					STATION.NAME STATION_NAME, STATION.ADDRESS STATION_ADDRESS, STATION.CONTACTER STATION_CONTACTER, STATION.CONTACT_TEL STATION_CONTACT_TEL,
+					AUTO.PLATE_NO PLATE_NO, AUTO.BRAND_NAME, AUTO.MODEL_NAME,
+					AUTO.STATION_ID GUARANTEE_STATION_ID, AUTO.STATION_NAME GUARANTEE_STATION_NAME, AUTO.STATION_CONTACTER GUARANTEE_STATION_CONTACTER, AUTO.STATION_CONTACT_TEL GUARANTEE_STATION_CONTACT_TEL
+			FROM 	T_AUTO_SERVICE SERVICE LEFT OUTER JOIN T_AUTO_DRIVER DRIVER ON SERVICE.DRIVER_ID = DRIVER.DRIVER_ID,
+					T_AUTO_STATION STATION, 
+					T_AUTO_INFO AUTO  
+			WHERE	SERVICE.STATION_ID = STATION.STATION_ID AND SERVICE.AUTO_ID = AUTO.AUTO_ID AND SERVICE.SERVICE_ID=:serviceId
+		]]>
+	</statement>
+	
+	<statement id="queryGuaranteeServiceInfo_station" desc="服务站查询担保支付">  
+		<![CDATA[
+			SELECT	SERVICE.*, DRIVER.LICENSE_NO DRIVER_LICENSE_NO, DRIVER.NAME DRIVER_NAME, DRIVER.MOBILE_NO DRIVER_MOBILE_NO,
+					STATION.NAME STATION_NAME, STATION.ADDRESS STATION_ADDRESS, STATION.CONTACTER STATION_CONTACTER, STATION.CONTACT_TEL STATION_CONTACT_TEL,
+					AUTO.PLATE_NO PLATE_NO, AUTO.BRAND_NAME, AUTO.MODEL_NAME,
+					AUTO.OWNER_NAME, AUTO.OWNER_CONTACTER, AUTO.OWNER_CONTACT_TEL
+			FROM 	T_AUTO_SERVICE SERVICE LEFT OUTER JOIN T_AUTO_DRIVER DRIVER ON SERVICE.DRIVER_ID = DRIVER.DRIVER_ID,
+					T_AUTO_STATION STATION, 
+					T_AUTO_INFO  AUTO
+			WHERE	SERVICE.STATION_ID = STATION.STATION_ID AND SERVICE.AUTO_ID = AUTO.AUTO_ID AND SERVICE.SERVICE_ID=:serviceId
+		]]>
+	</statement>
+	
+	<statement id="queryPaymentGuaranteeInfoes" desc="服务站查询担保支付单">  
+		<![CDATA[
+			SELECT	SERVICE.*, AUTO.PLATE_NO PLATE_NO,AUTO.OWNER_NAME
+			FROM 	T_AUTO_SERVICE SERVICE,
+					T_AUTO_INFO AUTO  
+			WHERE	SERVICE.AUTO_ID = AUTO.AUTO_ID AND SERVICE.GUARANTEE_STATION_ID=:user.ownerId
+			
+			<#if apprResult?default('') != ''>
+				AND SERVICE.GUARANTEE_STATUS=:apprResult
+			</#if>
+		]]>
+	</statement>
+	
+	<statement id="serviceDetailInfoe_p" desc="维修单详情（手机端）">  
+		<![CDATA[
+			SELECT SERVICE.STATION_ID,SERVICE.SERVICE_CODE,SERVICE.AUTO_PLATE_NO,SERVICE.ENTER_DATE,SERVICE.LEAVE_DATE,AUTO.OWNER_NAME,STATION.CONTACTER,STATION.CONTACT_TEL,STATION.NAME SERVICE_STATION_NAME,AUTO.STATION_NAME GURANTEE_STATION_NAME,
+			(CASE
+				WHEN  SERVICE.SERVICE_AMOUNT IS NULL THEN '0'
+				WHEN  SERVICE.SERVICE_AMOUNT IS NOT NULL  THEN SERVICE.SERVICE_AMOUNT
+			 END)  SERVICE_AMOUNT,
+			 (CASE
+				WHEN  SERVICE.PAYMENT_AMOUNT IS NULL THEN '0'
+				WHEN  SERVICE.PAYMENT_AMOUNT IS NOT NULL  THEN SERVICE.PAYMENT_AMOUNT
+			 END)  PAYMENT_AMOUNT,
+			SERVICE.AUTO_LEVEL,SERVICE.SERVICE_ITEMS,SERVICE.PAYMENT_STATUS  FROM  T_AUTO_SERVICE SERVICE
+			LEFT OUTER  JOIN T_AUTO_INFO AUTO  ON SERVICE.AUTO_ID=AUTO.AUTO_ID 
+			LEFT OUTER JOIN  T_AUTO_STATION STATION  ON  STATION.STATION_ID=SERVICE.STATION_ID
+		 	WHERE SERVICE.SERVICE_ID=:serviceId
+		]]>
+	</statement>
+	
+	<statement id="queryStationInfo_index" desc="维修单详情（手机端）">  
+		<![CDATA[
+			SELECT * 
+			FROM T_AUTO_STATION
+			WHERE IS_DELETED=0
+			ORDER BY CREATED_DATE DESC
+		]]>
+	</statement>
+	
+	<statement id="queryEnterpriseInfo_index" desc="维修单详情（手机端）">  
+		<![CDATA[
+			SELECT * 
+			FROM T_AUTO_ENTERPRISE
+			WHERE IS_DELETED=0
+			ORDER BY CREATED_DATE DESC
+		]]>
+	</statement>
+	
+	<statement id="queryAutoInfo_index" desc="维修单详情（手机端）">  
+		<![CDATA[
+			SELECT * 
+			FROM T_AUTO_INFO
+			WHERE IS_DELETED=0
+			ORDER BY CREATED_DATE DESC
+		]]>
+	</statement>
+	
+	<statement id="queryStationAccountInfo" desc="查找服务站账户信息">  
+		<![CDATA[
+			SELECT STATION.STATION_ID ID, STATION.NAME, STATION.PROVINCE_NAME, STATION.CITY_NAME, STATION.AREA_NAME, STATION.ADDRESS, USER.USER_NAME, USER.USER_ID, USER.OWNER_ROLE 
+			FROM T_AUTO_STATION STATION LEFT OUTER JOIN T_SYS_USER_INFO USER ON STATION.STATION_ID = USER.OWNER_ID
+			WHERE STATION.IS_DELETED=0 AND STATION.STATION_ID=:stationId 
+		]]>
+	</statement>
+	
+	<statement id="queryEnterpriseAccountInfo" desc="查找车队账户信息">  
+		<![CDATA[
+			SELECT ENTERPRISE.ENTERPRISE_ID ID, ENTERPRISE.NAME, ENTERPRISE.PROVINCE_NAME, ENTERPRISE.CITY_NAME, ENTERPRISE.AREA_NAME, ENTERPRISE.ADDRESS, USER.USER_NAME, USER.USER_ID, USER.OWNER_ROLE 
+			FROM T_AUTO_ENTERPRISE ENTERPRISE LEFT OUTER JOIN T_SYS_USER_INFO USER ON ENTERPRISE.ENTERPRISE_ID = USER.OWNER_ID
+			WHERE ENTERPRISE.IS_DELETED=0 AND ENTERPRISE.ENTERPRISE_ID=:enterpriseId 
+		]]>
+	</statement>
+	
+	<!-- 投诉管理脚本 -->
+	<statement id="queryComplainInfo" desc="投诉信息检索">  
+		<![CDATA[
+			SELECT COMPLAIN_ID, CATEGORY, TITLE, COMPLAIN.CREATED_DATE COMPLAIN_DATE,FILE_PATH, 
+				   case STATUS when '-1' then '待处理' when '0' then '处理中' else '处理完成' end STATUS_VALUE, SHEET_NO, 
+				   CONTENT, PROCESS_RESULT, STATUS,
+				   PROCESS_USER_ID,PROCESS_USER_NAME, PROCESS_DATE,
+				   DRIVER.MOBILE_NO, IFNULL(DRIVER.NAME, DRIVER.NICK_NAME) NAME, STATION.NAME STATION_NAME
+			FROM T_AUTO_SERVICE_COMPLAIN_INFO COMPLAIN , T_AUTO_DRIVER DRIVER, T_AUTO_STATION STATION
+			WHERE COMPLAIN.DRIVER_ID = DRIVER.DRIVER_ID AND COMPLAIN.STATION_ID = STATION.STATION_ID
+			
+			<#if category?default('') != ''>
+				AND COMPLAIN.CATEGORY=:category
+			</#if>
+			
+			<#if complainId?default('') != ''>
+				AND COMPLAIN.COMPLAIN_ID = :complainId
+			</#if>
+			
+			<#if mobileNo?default('') != ''>
+				AND DRIVER.MOBILE_NO=:mobileNo
+			</#if>
+			
+			<#if driverId?default('') != ''>
+				AND COMPLAIN.DRIVER_ID=:driverId
+			</#if>
+			
+			
+			ORDER BY COMPLAIN.UPDATED_DATE DESC
+		]]>
+	</statement>
+  <statement   id="queryFavoriteInfo"  desc="服务站收藏检索">
+       <![CDATA[
+           SELECT 	STATION.STATION_ID,PARENT_ID,STATION.NAME,PROVINCE,PROVINCE_NAME,CITY,CITY_NAME,AREA,AREA_NAME,ADDRESS,QUALIFICATION,
+		   			CONCAT(IFNULL(BRAND,''),'  ',REPLACE(IFNULL(SUB_BRAND,''),',','  ')) BRAND, IFNULL(LOGO_FILE,BRAND_LOGO.EXT_VALUE) LOGO_FILE,
+		   			LICENSE_FILE,IS_MEMBER,CONTACTER,CONTACT_TEL,FAX,REPLACE(IFNULL(SERVICE_MEMO,''),',','  ') SERVICE_MEMO,BRIEF_INTRO,DISCOUNT_FLAG,PROMOTION_FLAG,ACCOUNT_BANK,
+		   			ACCOUNT_NO,PRAISE_RATE,COMMENT_COUNT,GENERAL_SCORE,PRICE_SCORE,QUALITY_SCORE,TIME_SCORE,POS_LONG,POS_LAT,
+		   			USER_STATUS,STATION.CREATED_USER_ID,STATION.CREATED_DATE,STATION.UPDATED_USER_ID,STATION.UPDATED_DATE,STATION.IS_DELETED,BEHAVIOR_SCORE,SERVICE_NUM,
+					STATION.RESERVATION_USER,STATION.RESERVATION_PHONE,STATION.STATION_SERVICE, 
+					FAVORTIEINFO.FAVORITE_ID 
+           FROM    T_AUTO_STATION   STATION LEFT OUTER JOIN (SELECT NAME, EXT_VALUE FROM T_SYS_DATA WHERE PARENT_ID=2) BRAND_LOGO ON BRAND_LOGO.NAME = STATION.BRAND,T_AUTO_FAVORITE_INFO   FAVORTIEINFO
+           WHERE   STATION.STATION_ID  = FAVORTIEINFO.STATION_ID
+           AND   FAVORTIEINFO.CREATED_USER_ID =:driverId
+           ORDER  BY   FAVORTIEINFO.CREATED_DATE  DESC  
+       ]]>
+  </statement>		
+	<statement id="queryScoreInfos" desc="司机积分信息">  
+		<![CDATA[
+			select * from t_auto_score_info where OWNER_ID=:ownerId
+			
+			ORDER BY CREATED_DATE DESC
+		]]>
+	</statement>
+
+	 <statement id ="queryPushListInfos" desc="消息推送内容信息">
+	      <![CDATA[
+	          SELECT    PUSHINFO.PUSH_ID,PUSHINFO.TITLE,PUSHINFO.CONTENT,DATE_FORMAT(PUSHINFO.CREATED_DATE,'%Y-%m-%d')  as CREATED_DATE,PUSHINFO.STATUS    FROM    T_AUTO_PUSH_INFO   PUSHINFO  WHERE   PUSHINFO.CREATED_USER_ID =:user.userId 
+	          AND       PUSHINFO.IS_DELETED =0   ORDER   BY   PUSHINFO.CREATED_DATE   DESC
+	       ]]>
+	 </statement>
+	 <statement id ="queryPushCustomerListInfos" desc="消息推送客户信息">
+	      <![CDATA[
+	          SELECT     DRIVER.DRIVER_ID  driverId, IFNULL(DRIVER.NAME, DRIVER.NICK_NAME) NAME   
+              FROM   T_AUTO_DRIVER DRIVER, T_AUTO_STATION_CUSTOMER_INFO  CUSTOMER
+              WHERE    DRIVER.DRIVER_ID  = CUSTOMER.DRIVER_ID  AND    CUSTOMER.STATION_ID  =:user.userId
+	       ]]>
+	 </statement>
+	<statement id ="queryPushCustomerListInfos_selected" desc="查询已选择推送客户信息">
+	       <![CDATA[
+	           SELECT  DRIVER.DRIVER_ID  driverId, IFNULL(DRIVER.NAME, DRIVER.NICK_NAME) NAME 
+	           FROM    T_AUTO_DRIVER DRIVER,T_AUTO_PUSH_USER_INFO  PUSHUSERINFO 
+	           WHERE   DRIVER.DRIVER_ID  = PUSHUSERINFO.USER_ID  AND  PUSHUSERINFO.PUSH_ID =:pushId   
+	       ]]> 
+	</statement>
+	<statement id ="updatePushInfos_isSent" desc="更新托送消息发送状态">
+	       <![CDATA[
+	            UPDATE    T_AUTO_PUSH_USER_INFO   SET   IS_SENT =1   WHERE   RECEIVE_ID  =:receiveId
+	       ]]>
+	</statement>
+    <statement id ="queryPushInfos" desc="消息推送信息">
+       <![CDATA[
+           select    PUSHINFO.PUSH_ID,PUSHINFO.TITLE,PUSHINFO.CONTENT,DEVICEINFO.DEV_NO,DEVICEINFO.DEV_TYPE,PUSHUSERINFO.RECEIVE_ID , PUSHINFO.STATUS 
+           from     T_AUTO_PUSH_INFO   PUSHINFO, T_AUTO_PUSH_USER_INFO   PUSHUSERINFO,T_SYS_DEVICE_INFO   DEVICEINFO 
+           WHERE    PUSHINFO.PUSH_ID  = PUSHUSERINFO.PUSH_ID and  PUSHUSERINFO.USER_ID  = DEVICEINFO.USER_ID
+           AND      PUSHINFO.STATUS =1     AND   PUSHINFO.IS_DELETED =0   AND   PUSHUSERINFO.IS_SENT  =0   ORDER   BY   DEVICEINFO.DEV_ID   DESC
+		]]>
+    </statement>
+    <statement  id="queryPushInfos_His"  desc="查询推送消息历史 信息">
+       <![CDATA[
+           SELECT  PUSHINFO.PUSH_ID,PUSHUSERINFO.RECEIVE_ID,PUSHINFO.TITLE,PUSHINFO.CONTENT,DATE_FORMAT(PUSHINFO.CREATED_DATE,'%Y-%m-%d')  as CREATED_DATE,
+                   STATION.NAME ,IFNULL(LOGO_FILE,BRAND_LOGO.EXT_VALUE) LOGO_FILE,PUSHUSERINFO.ORDER_INDEX
+           FROM    T_AUTO_PUSH_INFO   PUSHINFO,T_AUTO_PUSH_USER_INFO   PUSHUSERINFO,T_AUTO_STATION   STATION,(SELECT NAME, EXT_VALUE FROM T_SYS_DATA WHERE PARENT_ID=2) BRAND_LOGO     
+           WHERE    PUSHINFO.PUSH_ID  =PUSHUSERINFO.PUSH_ID  AND     PUSHUSERINFO.USER_ID =:driverId    AND  PUSHUSERINFO.ORDER_INDEX > :index    
+           AND   STATION.STATION_ID  =  PUSHINFO.CREATED_USER_ID   AND  PUSHUSERINFO.IS_SENT  =1  AND STATION.BRAND = BRAND_LOGO.NAME   
+           ORDER BY   PUSHUSERINFO.ORDER_INDEX  DESC
+       ]]>
+    </statement>
+    
+	<statement id="queryStationCustomerInfo" desc="司机积分信息">  
+		<![CDATA[
+			SELECT CUSTOMER.CUSTOMER_ID, IFNULL(DRIVER.NAME, DRIVER.NICK_NAME) NAME, DRIVER.MOBILE_NO, DRIVER.ADDRESS
+			FROM T_AUTO_STATION_CUSTOMER_INFO CUSTOMER, T_AUTO_DRIVER DRIVER
+			WHERE CUSTOMER.DRIVER_ID = DRIVER.DRIVER_ID AND 
+				  CUSTOMER.STATION_ID=:user.userId
+			
+			<#if mobileNo?default('') != ''>
+				AND DRIVER.MOBILE_NO=:mobileNo
+			</#if>	  
+		]]>
+	</statement>
+	
+	<statement id="queryDriver4Customer" desc="查询卡车司机信息">  
+		<![CDATA[
+		    SELECT DRIVER_ID, IFNULL(DRIVER.NAME, DRIVER.NICK_NAME) NAME, DRIVER.MOBILE_NO, DRIVER.ADDRESS
+		    FROM T_AUTO_DRIVER DRIVER 
+		    WHERE IS_DELETED=0 AND NOT EXISTS (SELECT * FROM T_AUTO_STATION_CUSTOMER_INFO CUSTOMER WHERE CUSTOMER.STATION_ID=:user.userId AND CUSTOMER.DRIVER_ID = DRIVER.DRIVER_ID)
+		    
+		    <#if mobileNo?default('') != ''>
+		    	AND MOBILE_NO = :mobileNo
+		    </#if>
+		]]>
+	</statement>
+</mapper>  

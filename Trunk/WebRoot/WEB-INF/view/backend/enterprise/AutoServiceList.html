@@ -1,0 +1,42 @@
+<div id="Page_ServiceListView" class="row hidden" data-role="page">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		  <li>
+		  		<a href="#">维修单查询</a>
+		  </li>
+		</@macro.Breadcrumb>
+				
+		<div class="row">
+			
+			<div class="col-lg-12">
+				<form id="frm_service_query" class="form-horizontal">
+					<input type="hidden" name="autoId" id="autoId"/>
+					<div class="col-lg-5">
+						<@macro.form_text label="担保维修单号" name="serviceCode" span="4,8"/>
+					</div>
+					<div class="col-lg-7" style="text-align: right;">
+							<@macro.button_query/>
+							<@macro.button_back/>
+					</div>
+				</form>
+			</div>
+		</div>
+		    
+		<div class="row">
+			<@macro.dataTable id="datatable_service" statement="cvfans.queryAutoServiceInfos_enterprise" criteria="frm_service_query">
+				<thead>
+					<tr role="row">
+						<th tabindex="0">维修单号</th>
+						<th tabindex="1">服务站</th>
+						<th tabindex="2">维修时间</th>
+						<th tabindex="3">应付金额</th>
+						<th tabindex="5">支付金额</th>
+						<th tabindex="6">支付状态</th>
+						<th tabindex="6"></th>
+					</tr>
+				</thead>
+				<tbody/>
+			</@macro.dataTable>
+		</div>
+	</div>
+</div>

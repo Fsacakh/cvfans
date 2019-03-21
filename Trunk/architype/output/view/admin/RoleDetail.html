@@ -1,0 +1,40 @@
+
+<div id="Page_RoleDetail" data-role='page' class="container-fluid hidden">
+	<@macro.Breadcrumb subtitle="角色明细"/>
+		
+	<div class="row-fluid">
+		<div class="span12">
+			<form id="frm_role" data-entity="Role" class="form-horizontal">
+				<input id="id" name="id" type="hidden">
+				
+				<div class="row-fluid">
+					<div class="span4 ">
+						<@macro.form_text label="roleId" name="roleId"/>
+					</div>
+					<div class="span4 ">
+						<@macro.form_text label="编码" name="code"/>
+					</div>
+					<div class="span4 ">
+						<@macro.form_text label="name" name="name"/>
+					</div>
+				</div>
+				<div class="row-fluid">
+					<div class="span4 ">
+						<@macro.form_text label="type" name="type"/>
+					</div>
+					<div class="span4 ">
+						<@macro.form_text label="status" name="status"/>
+					</div>
+				</div>			
+
+				<div class="row-fluid">
+					<div class="span12" style="text-align:right">
+						<@macro.button_save form="frm_role" success="back"/>
+						<@macro.button_back/>
+						<@macro.button_reset/>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

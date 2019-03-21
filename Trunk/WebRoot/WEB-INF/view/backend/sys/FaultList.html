@@ -1,0 +1,50 @@
+<div id="Page_FaultListView" class="row" data-role="page">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		  <li>
+		  	<a href="#">常见故障</a>
+		  </li>
+		  <li><a href="#">常见故障查询</a></li>
+		</@macro.Breadcrumb>
+				
+		<div class="row">
+			<div class="col-lg-12">
+				<form id="frm_fault_query" class="form-horizontal">
+					<div class="row">
+						<div class="col-lg-4">
+							
+						</div>
+						
+						<div class="col-lg-4">
+							
+						</div>
+						
+						<div class="col-lg-4" style="text-align:right">
+							<@macro.button_query/>
+	     					<@macro.button_add page="Page_FaultEditView"/>
+	     					
+	        				<@macro.button_delete id="stationId" table="datatable_station" url="/Persist/FaultEntity/Delete.action" message="是否要删除当前选择的服务站?" success="btn_query" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		    
+		<div class="row">
+			<@macro.dataTable id="datatable_station" statement="cvfans.queryFaultInfoes" criteria="frm_fault_query">
+				<thead>
+					<tr role="row">
+						<th tabindex="0"><div class="checkbox" style="width:20px;"> <label><input type="checkbox" class="dataTable_selectAll"/></label></div></th>
+						<th tabindex="0">标题</th>
+						<th tabindex="0">类型</th>
+						<th tabindex="1">来源</th>
+						<th tabindex="1">撰写者</th>
+						<th tabindex="3">提交时间</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody/>
+			</@macro.dataTable>
+		</div>
+	</div>
+</div>

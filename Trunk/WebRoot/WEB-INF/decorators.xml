@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>  
+<decorators defaultdir="/WEB-INF/view/decorators">
+	<decorator name="index" page="index.ftl">
+ 		<pattern>/index.html</pattern>
+	</decorator>
+	
+	<decorator name="frontend" page="main.ftl">
+ 		<pattern>*.html</pattern>
+	</decorator>
+	
+	<decorator name="backend" page="admin_main.ftl">
+ 		<pattern>/backend/sys/*.html</pattern>
+ 		<pattern>/backend/enterprise/*.html</pattern>
+ 		<pattern>/backend/station/*.html</pattern>
+ 		<pattern>/backend/*.html</pattern>
+	</decorator>
+</decorators>

@@ -1,0 +1,46 @@
+<div id="Page_PromotionListView" class="row" data-role="page">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		  	 <li>
+			  		<a href="#">促销信息管理</a>
+			  </li>
+			  <li>
+			  		<a href="#">促销信息查询</a>
+			  </li>
+		</@macro.Breadcrumb>
+				
+	<div class="row">
+			<div class="col-lg-12">
+				<form id="frm_promotion_query" class="form-horizontal">
+					<div class="row">
+						<div class="col-lg-4">
+							<@macro.form_text label="标题" name="title"/>
+						</div>
+						
+						<div class="col-lg-8" style="text-align:right">
+							<@macro.button_query/>
+							
+	     					<@macro.button_add page="Page_PromotionDetails"/>
+	     					
+	        				<@macro.button_delete id="promotionId" table="datatable_promotion" url="/Persist/Promotion/Delete.action" message="是否要删除当前选择的促销信息?" success="btn_query" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		    
+		<div class="row">
+			<@macro.dataTable id="datatable_promotion" statement="cvfans.queryStationPromotionInfos" criteria="frm_promotion_query">
+				<thead>
+					<tr role="row">
+						<th tabindex="0"><div class="checkbox" style="width:20px;"> <label><input type="checkbox" class="dataTable_selectAll"/></label></div></th>
+						<th tabindex="0">标题</th>
+						<th tabindex="1">内容</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody/>
+			</@macro.dataTable>
+		</div>
+	</div>
+</div>

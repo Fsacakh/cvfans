@@ -1,0 +1,11 @@
+<div class="barbodycon">
+	<ul class="list-group" style="width:100%">
+		<#list result.list as station>
+			<li class="list-group-item"><a href="#"><img src="${contextPath + '/' + station['LOGO_FILE']?default('images/station/default.jpg')}" width="50px"/><span style="padding-left:20px;">${station['NAME']}</span></a></li>
+		</#list>
+	</ul>
+	<div class="clear"></div>
+</div>
+<div class="barbodytitle">
+	注册服务站<a href="#">${result.pagination.totalRows}</a>家
+</div>

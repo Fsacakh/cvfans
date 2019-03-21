@@ -1,0 +1,89 @@
+<!--main 页面主体开始-->   
+<div id="StationDetails_Page" class="row" data-role="page">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		  	 <li>
+			  		<a href="SearchStation.html">联盟服务站搜索</a>
+			  </li>
+			  <li>
+			  		<a href="#">服务站详情</a>
+			  </li>
+		</@macro.Breadcrumb>
+        <div class="row companyarea">
+        	<input type="text" class="hidden" id="stationId" value=${RequestParameters["stationId"]}>
+        	<div class="col-lg-6"><div class="companypic"><img src="${requestContext.contextPath}/media/image/kachezhiyou/companypic/c_hotpic.png" title="#" alt="#"/></div></div>
+            <div class="col-lg-6" >
+            <div class="row">
+	             <div class="companyinfo">
+	            	<div class="row">
+	                	<div  id="name" class="companyname"></div>
+	                </div>
+	                <div class="row">
+	                	<p style="padding-top: 20px;padding-bottom: 10px;"><img src="${requestContext.contextPath}/media/image/kachezhiyou/common/add.png"/>&nbsp;&nbsp;<span id="address"></span>&nbsp;&nbsp;&nbsp;&nbsp;<img src="${requestContext.contextPath}/media/image/kachezhiyou/common/phone02.png"/>&nbsp;&nbsp;<span id="contactTel"></span></p>
+	                </div>
+	                <div class="row">
+	                <div style="color:#828181;"><p><span id="generalScore">总体评分&nbsp</span>
+		                <span id="qualityScore">&nbsp&nbsp&nbsp&nbsp服务质量 </span></p>
+		                <p><span id="timeScore">服务速度 </span>
+		                <span id="priceScore">&nbsp&nbsp&nbsp&nbsp价&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp格 </span></p>
+	                </div>
+	                </div>
+	            </div>
+	         </div>
+	          <div class="row">   
+            	<div class="sign">
+                	<div class="vipsign"></div>
+               		<div class="brandsign"></div>	
+           		</div>
+           	  </div>	 
+        </div>
+        </div>
+        <div class="row">
+           <div class="col-lg-7 l_sider" id="left">
+	            	<div class="l_sider_con">
+	                	<div class="title02"><span>维修范围</span></div>
+	                    <ul class="repair">
+	                    	<li><a href="#">东风商用车全系列</a></li>
+	                        <li><a href="#">解放全系列</a></li>
+	                        <li><a href="#">康明斯发动机</a></li>
+	                    </ul>
+	                    <div class="title02"><span>折扣政策</span></div>
+	                    <ul id="discount" class="repair">
+	                    </ul>
+	                    <div class="title02"><span>促销信息</span></div>
+	                    <ul id="promotion" class="repair">
+	                    </ul>
+	                </div>
+            </div>
+            <div class="col-lg-5">
+            	<div class="r_sider" id="right">
+                <div class="row">
+                    <div id="gdmap" style="height: 300px;"></div>
+                </div>
+                <div class="row">
+	                <div class="nearfwz">
+	                	<div class="title"><span>附近的维修站</span></div>
+	                    <ul id="fjStation">
+	                    </ul>
+	                </div>
+                </div>
+                 <div class="row">
+	                <div class="discuss">
+	                	<form>
+	                    	<textarea class="textarea" name="pinglun"></textarea>
+	                        <input type="submit" class="btn_pl" name="pinglun" value="发表评论">
+	                    </form> 
+	                    <p><a href="#">查看更多评论 &gt;&gt;</a></p>                
+	                </div>
+                </div>
+            </div>
+            </div>
+         </div>     	          	
+    	</div>
+    	<script type="text/javascript">
+		$(document).ready(function(){
+			initPageData_StationDetails("admin","toPostion");
+		});
+	</script>
+ </div>
+<!--main 页面主体结束-->     

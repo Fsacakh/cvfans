@@ -1,0 +1,74 @@
+<div id="Page_AutoDetails_Sys" data-role='page' class="row hidden">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		<li>车辆详情</li> </@macro.Breadcrumb>
+
+		<form id="frm_auto" data-entity="AutoInfo" class="form-horizontal"
+			enctype="multipart/form-data">
+			<input type="hidden" id="autoId" name="autoId" />
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="行驶证号"
+					name="licenseNo" /></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_image label="行驶证照片"
+							name="licenseFileUri"/></div> 
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6">
+					<@macro.form_select name="plate" label="车牌类型"
+					statementId="DataInfo.Query" filter="parentId:3" optionValue="label"
+					optionName="label">
+					<option value="">选择车牌类型</option>
+					</@macro.form_select>
+				</div>
+
+				<div class="col-lg-6"><@macro.form_text label="车牌号"
+					name="plateNo" /></div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6">
+					<@macro.form_select name="brand" label="品牌"
+					statementId="DataInfo.Query" filter="parentId:2" optionValue="id"
+					optionName="label" cascade="model">
+					<option value="">选择品牌</option>
+					</@macro.form_select>
+				</div>
+				<div class="col-lg-6 date">
+					<@macro.form_select name="model" label="型号"
+					statementId="DataInfo.Query" filter="parentId" optionValue="id" optionName="label"
+					initial="0">
+					<option value="">选择型号</option>
+					</@macro.form_select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="发动机编号"
+					name="engineNo" /></div>
+				<div class="col-lg-6"><@macro.form_text label="车架号"
+					name="frameNo" /></div>
+			</div>
+			
+			<div class="space12"></div>
+			<div class="row ">
+				<div class="col-lg-12" style="text-align:center">
+					<@macro.button_back/></div>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

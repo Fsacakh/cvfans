@@ -1,0 +1,48 @@
+<div id="Page_ComplainListView" class="row" data-role="page">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		  <li>
+		  	<a href="#">投诉管理</a>
+		  </li>
+		  <li><a href="#">投诉查询</a></li>
+		</@macro.Breadcrumb>
+				
+		<div class="row">
+			<div class="col-lg-12">
+				<form id="frm_complain" class="form-horizontal">
+					<div class="row">
+						<div class="col-lg-4">
+							
+						</div>
+						
+						<div class="col-lg-4">
+							
+						</div>
+						
+						<div class="col-lg-4" style="text-align:right">
+							<@macro.button_query/>
+	     					<@macro.button_add page="Page_ComplainEditView"/>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		    
+		<div class="row">
+			<@macro.dataTable id="dt_complain" statement="cvfans.queryComplainInfo" criteria="frm_complain">
+				<thead>
+					<tr role="row">
+						<th tabindex="0">司机</th>
+						<th tabindex="1">投诉时间</th>
+						<th tabindex="1">投诉类别</th>
+						<th tabindex="1">投诉服务站</th>
+						<th tabindex="1">维修单</th>
+						<th tabindex="3">处理状态</th>
+						<th tabindex="3"></th>
+					</tr>
+				</thead>
+				<tbody/>
+			</@macro.dataTable>
+		</div>
+	</div>
+</div>

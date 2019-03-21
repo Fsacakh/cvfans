@@ -1,0 +1,103 @@
+<div id="Page_StationDetails_Sub" data-role='page' class="row hidden">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+			<li>二级服务站信息详情</li>
+		</@macro.Breadcrumb>
+		
+		<form id="frm_station"  class="form-horizontal" enctype="multipart/form-data">
+			<input type="hidden" id="stationId" name="stationId"/>
+			<input type="hidden" id="parentId" name="parentId"/>
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="服务站名称"
+					name="name" /></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="form-group">
+						<label class="control-label col-lg-2">地址</label>
+						<div class="col-lg-2">
+							<@macro.field_select name="province" statementId="DataInfo.Query" filter="parentId:1" optionValue="id" optionName="label" cascade="city">
+								<option value="">选择省份</option>
+							</@macro.field_select>
+						</div>
+						<div class="col-lg-2">
+							<@macro.field_select name="city" statementId="DataInfo.Query" optionValue="id" optionName="label" filter="parentId"  initial="0" cascade="area">
+								<option value="">选择市</option>
+							</@macro.field_select>
+						</div>
+						<div class="col-lg-2">
+							<@macro.field_select name="area" statementId="DataInfo.Query" optionValue="id" optionName="label" filter="parentId" initial="0">
+								<option value="">选择区</option>
+							</@macro.field_select>
+						</div>
+						<div class="col-lg-4">
+							<input id="address" name="address" type="text" class="form-control" placeholder="">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="联系人"
+					name="contacter" /></div>
+				<div class="col-lg-6"><@macro.form_text label="联系人电话"
+					name="contactTel" /></div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="传真" name="fax"
+					/></div>
+				<div class="col-lg-6"><@macro.form_text label="资质级别"
+					name="qualification" /></div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="开户银行"
+					name="accountBank" /></div>
+				<div class="col-lg-6"><@macro.form_text label="开户银行账户"
+					name="accountNo" /></div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<@macro.form_checkbox name="brand" label="品牌"
+					statementId="cvfans.queryAutoBrandInfoes" span="2,10" cols=7 value="label" deserialized="false"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<@macro.form_checkbox name="serviceMemo" label="服务品牌"
+					statementId="cvfans.queryAutoBrandInfoes" span="2,10" cols=7 value="label"  deserialized="false"/>
+				</div>
+			</div>
+			<div class="row hidden">
+				<div class="col-lg-6"><@macro.form_text label="经度"
+					name="posLong" /></div>
+				<div class="col-lg-6"><@macro.form_text label="纬度"
+					name="posLat" /></div>
+			</div>
+			
+			<div id="uploadify" class="row">
+				<div class="col-lg-6">
+					<@macro.form_file label="Logo图标" name="logoFile" />
+				</div>
+				
+				<div class="col-lg-6">
+					<@macro.form_file label="服务许可证" name="licenseFileUri" />
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<@macro.form_textarea label="简介" name="briefIntro" span="2,10"/>
+				</div>
+			</div>
+		
+			<div class="space12"></div>
+			<div class="row ">
+				<div class="col-lg-12" style="text-align:center">
+					<@macro.button_save form="frm_station"/> <@macro.button_back/></div>
+			</div>
+		</form>
+		</div>
+	</div>	

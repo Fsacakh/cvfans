@@ -1,0 +1,81 @@
+<div id="Page_StationListView" class="row" data-role="page">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		  <li>
+		  	<a href="#">服务站管理</a>
+		  </li>
+		  <li><a href="#">服务站查询</a></li>
+		</@macro.Breadcrumb>
+				
+		<div class="row" style="margin-bottom:10px;">
+			<div class="col-lg-12">
+				<form id="frm_station_query" class="form-horizontal">
+					<div class="row">
+						<div class="col-lg-3">
+							<@macro.form_text label="名称" name="name"/>
+						</div>
+						
+						<div class="col-lg-3">
+							<@macro.form_select name="brand" label="品牌"
+							statementId="cvfans.queryAutoBrandInfoes" optionValue="label"
+							optionName="label" cascade="model">
+							<option value="">选择品牌</option>
+							</@macro.form_select>
+						</div>
+						
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label class="control-label col-lg-5">会员</label>
+								<div class="col-lg-7">
+									<select id="member" name="member" class="form-control" >
+										<option value="">选择会员</option>
+										<option value="1">是</option>
+										<option value="0">否</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-lg-3">
+							<div class="form-group">
+								<label class="control-label col-lg-5">类别</label>
+								<div class="col-lg-7">
+									<select id="parentId" name="parentId" class="form-control" >
+										<option value="">选择类别</option>
+										<option value="1">二级</option>
+										<option value="0">非二级</option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-lg-12" style="text-align:right">
+							<@macro.button_query/>
+	     					<@macro.button_add page="Page_StationDetailEdit"/>
+	        				<@macro.button_delete id="stationId" table="datatable_station" url="/Persist/Station/Delete.action" message="是否要删除当前选择的服务站?" success="btn_query" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		    
+		<div class="row">
+			<@macro.dataTable id="datatable_station" statement="cvfans.queryStationInfos" criteria="frm_station_query">
+				<thead>
+					<tr role="row">
+						<th tabindex="0"><div class="checkbox" style="width:20px;"> <label><input type="checkbox" class="dataTable_selectAll"/></label></div></th>
+						<th tabindex="0">服务站名称</th>
+						<th tabindex="1">服务站地址</th>
+						<th tabindex="1">品牌</th>
+						<th tabindex="3">会员</th>
+						<th tabindex="3">类别</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody/>
+			</@macro.dataTable>
+		</div>
+	</div>
+</div>

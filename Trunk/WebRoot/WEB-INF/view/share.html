@@ -1,0 +1,151 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no">
+		<meta name="generator" content="bd-mobcard">
+		
+		<link href="${requestContext.contextPath}/media/css/jquery.raty.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="${requestContext.contextPath}/media/js/plugin/jquery-1.10.1.min.js"></script>
+		<script type="text/javascript" src="${requestContext.contextPath}/media/js/plugin/jquery.raty.js"></script>
+		<style>
+			html,body { 
+				width:100%; 
+				height:100%; 
+				margin:0px; 
+				padding:0px; 
+				overflow:hidden; 
+			} 
+
+			.line_top{
+				border-top: #ebecee 1px solid;
+			}
+			
+			.line_bottom{
+				border-bottom: #ebecee 1px solid;
+			}
+			
+			.title{
+  				width: auto;
+			  	height: 40px;
+			  	position: relative;
+			  	line-height: 40px;
+			  	max-width: 960px;
+			  	margin: 0 auto;
+			  	font-size: 16px;
+			  	background:#EDEDED; 
+			  	font-size: 14px;
+				color: #666;
+			}
+			
+			.content{
+				  width: auto;
+				  min-height: 40px;
+				  position: relative;
+				  line-height: 40px;
+				  max-width: 960px;
+				  margin: 0 auto;
+				  font-size: 14px;
+				  color: #666;
+			}
+			
+			#Main { 
+				position:absolute;
+				bottom:0px; 
+				left:0px; 
+				width:100%; 
+				height:100%; 
+				z-index:1; 
+				overflow:auto; 
+			} 
+			
+			#footer { 
+				position:absolute; 
+				bottom:0px; 
+				width:100%; 
+				text-align:center; 
+				z-index:2; 
+				overflow:hidden; 
+			} 
+		</style>
+		
+		<script type="text/javascript">
+			$.extend( true, $.fn.raty.defaults, {
+				"hints": ['1', '2', '3', '4', '5'],
+				"path":'${requestContext.contextPath}/media/image/rate', 
+				"showHalf":true
+			});
+
+			function getScore(score){
+				if(score == '' || score == undefined){
+					return 0;
+				}else{
+					return score;
+				}
+			}
+
+			$(document).ready(function(){
+				$('#generalScore').raty({score:getScore(${result.GENERAL_SCORE}), readOnly:  true});
+				$('#priceScore').raty({score:getScore(${result.PRICE_SCORE}), readOnly:  true});
+				$('#qualityScore').raty({score:getScore(${result.QUALITY_SCORE}), readOnly:  true});
+				$('#timeScore').raty({score:getScore(${result.TIME_SCORE}), readOnly:  true});
+				$('#behaviorScore').raty({score:getScore(${result.BEHAVIOR_SCORE}), readOnly:  true});
+				
+				var ua = navigator.userAgent.toLowerCase();
+				if(ua.indexOf('qqbrowser') > 0){
+					$('#xiazai').attr('href','http://a.app.qq.com/o/simple.jsp?pkgname=com.coahr.cvfan');
+				}else{
+					$('#xiazai').attr('href','${requestContext.contextPath}/download/cvfans.apk');
+				}
+			});
+		</script>
+		
+	</head>
+	<body>
+		<div id="main">
+			<div style="padding:5px">
+				<font color="#055a9c" style="font-size:16px">${result.NAME}</font>
+			</div>
+			
+			<ul  style="list-style:none; width: auto; margin: 10px 0 0 0; padding-left: 10px; position: relative; min-height: 150px; max-width: 960px; margin: 0 auto;">
+				<li style="float:left; width:30%; line-height:150px;">
+					<img src="${requestContext.contextPath}/${result.LOGO_FILE}" style="width:100%; vertical-align: middle;">
+				</li>
+				<li style="float:left">
+					<ul style="padding-left:10px;">
+	            		<li style="list-style-type:none;font-size: 14px;color: #666;margin-top: 10px;"><span id="qualityScore">服务质量&nbsp</span></li>
+	            		<li style="list-style-type:none;font-size: 14px;color: #666;margin-top: 10px;"><span id="timeScore">服务速度&nbsp</span></li>
+	            		<li style="list-style-type:none;font-size: 14px;color: #666;margin-top: 10px;"><span id="priceScore">服务价格&nbsp</span></li>
+	            		<li style="list-style-type:none;font-size: 14px;color: #666;margin-top: 10px;"><span id="behaviorScore">服务态度&nbsp</span></li>
+	            	</ul>
+				</li>
+			</ul>
+			
+			<div class="line_top" style="padding:5px;height:40px; line-height:40px">
+				<img src="${requestContext.contextPath}/media/image/icons/position.png">
+				<span style="padding-left:10px;font-size: 14px;color: #666;">${result.ADDRESS}</span>
+			</div>
+			
+			<div class="line_top" style="padding:5px;height:40px; line-height:40px">
+				<img src="${requestContext.contextPath}/media/image/icons/phone.png">
+				<span style="padding-left:10px;font-size: 14px;color: #666;">${result.CONTACT_TEL}</span>
+			</div>
+			
+			<div class="title line_top" style="padding:5px;">授权品牌</div>
+			<div class="content line_top" style="padding:5px;">${result.BRAND?default('')}</div>
+			
+			<div class="title line_top" style="padding:5px;">维修品牌</div> 
+			<div class="content line_top" style="padding:5px;">${result.SERVICE_MEMO?default('')}</div>
+			
+			<div class="title line_top" style="padding:5px;">站内服务</div>
+			<div class="content line_top line_bottom" style="padding:5px;">${result.STATION_SERVICE?default('')}</div>
+		</div>
+
+		<div id="footer">
+			<a id="xiazai">
+				<img id="bg" src="${requestContext.contextPath}/media/image/share_download.png" style="width:100%">
+			</a>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,47 @@
+<div id="Page_Station_CustomerListView" class="row" data-role="page">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		  	 <li>
+			  		<a href="#">客户管理</a>
+			  </li>
+			  <li>
+			  		<a href="#">客户列表</a>
+			  </li>
+		</@macro.Breadcrumb>
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<form id="frm_comment_query" class="form-horizontal">
+					<div class="row">
+						<div class="col-lg-4">
+							<@macro.form_text label="手机号" name="mobileNo"/>
+						</div>
+						
+						<div class="col-lg-4">
+						</div>
+					
+						<div class="col-lg-4" style="text-align:right">
+	     					<@macro.button_query/> 
+							<@macro.button_add page="Page_Station_CustomerSearch"/>
+	     					<@macro.button_delete id="customerId" table="datatable_customer" url="/Persist/StationCustomerInfo/Delete.action" message="是否要删除当前选择的客户?" success="btn_query" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		    
+		<div class="row">
+			<@macro.dataTable id="datatable_customer" statement="cvfans.queryStationCustomerInfo" criteria="frm_comment_query">
+				<thead>
+					<tr role="row">
+						<th></th>
+						<th>姓名</th>
+						<th>手机</th>
+						<th>地址</th>	
+					</tr>
+				</thead>
+				<tbody/>
+			</@macro.dataTable>
+		</div>
+	</div>
+</div>

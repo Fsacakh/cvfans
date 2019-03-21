@@ -1,0 +1,48 @@
+<div id="Page_AutoListView_Sys" class="row" data-role="page">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+			  <li>
+			  	<a href="#">车辆管理</a>
+			  </li>
+			  <li><a href="#">车辆查询</a></li>
+		</@macro.Breadcrumb>	
+	
+	<div class="row">
+		<div class="col-lg-12">
+			<form id="frm_auto_query" class="form-horizontal">
+				<div class="row">
+					<div class="row">
+						<div class="col-lg-4">
+							<@macro.form_text label="车管" name="name"/>
+						</div>
+						
+						<div class="col-lg-4">
+							<@macro.form_text label="车牌号" name="plateNo"/>
+						</div>
+						
+						<div class="col-lg-4"  style="text-align:right">
+							<@macro.button_query/>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	    
+	<div class="row">
+		<@macro.dataTable id="datatable_auto" statement="cvfans.queryAutoInfos4sys" criteria="frm_auto_query">
+			<thead>
+				<tr role="row">
+					<th tabindex="0"><div class="checkbox" style="width:20px;"> <label><input type="checkbox" class="dataTable_selectAll"/></label></div></th>
+					<th tabindex="2">所有权</th>
+					<th tabindex="1">车牌号</th>
+					<th tabindex="2">品牌</th>
+					<th tabindex="3">型号</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody/>
+		</@macro.dataTable>
+	</div>
+</div>
+</div>

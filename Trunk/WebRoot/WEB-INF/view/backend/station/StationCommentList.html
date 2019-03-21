@@ -1,0 +1,41 @@
+<div id="Page_Station_CommentListView" class="row" data-role="page">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		  	 <li>
+			  		<a href="#">用户评价管理</a>
+			  </li>
+			  <li>
+			  		<a href="#">用户评价查询</a>
+			  </li>
+		</@macro.Breadcrumb>
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<form id="frm_comment_query" class="form-horizontal">
+					<div class="row">
+						<input type="hidden" name="stationId" id="stationId" value="${Session.User.ownerId}"/>
+					</div>
+				</form>
+			</div>
+		</div>
+		    
+		<div class="row">
+			<@macro.dataTable id="datatable_commment" statement="cvfans.queryStationCommentInfo" criteria="frm_comment_query">
+				<thead>
+					<tr role="row">
+						<th>评价司机</th>
+						<th>手机号</th>
+						<th>评价时间</th>	
+						<th>整体评价</th>
+						<th>价格评价</th>
+						<th>质量评价</th>
+						<th>速度评价</th>
+						<th>态度评价</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody/>
+			</@macro.dataTable>
+		</div>
+	</div>
+</div>

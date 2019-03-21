@@ -1,0 +1,131 @@
+<div id="Page_PaymentGuaranteeServiceDetail" data-role='page' class="row hidden">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		<li>维修单详情</li> </@macro.Breadcrumb>
+
+		<form id="frm_service" class="form-horizontal" enctype="multipart/form-data">
+			<input type="hidden" id="serviceId" name="SERVICE_ID"/>
+			<input type='hidden' id='stationId' name='STATION_ID'/>
+			<input type='hidden' id='autoId' name='AUTO_ID'/>
+			<input type='hidden' id='guaranteeStationId' name='GUARANTEE_STATION_ID'/>
+			<input type='hidden' id='guaranteeStatus' name='GUARANTEE_STATUS'/>
+			
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="维修单号"
+					name="SERVICE_CODE"/></div>
+
+				<div class="col-lg-6"><@macro.form_text label="车牌号码"
+					name="PLATE_NO"/></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="维修服务站"
+					name="STATION_NAME"/></div>
+					
+				<div class="col-lg-6"><@macro.form_text label="联系人"
+					name="STATION_CONTACTER"/></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="联系电话"
+					name="STATION_CONTACT_TEL"/></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="车辆所有人"
+					name="OWNER_NAME" readonly="true" /></div>
+				
+				<div class="col-lg-6"><@macro.form_text label="联系人"
+					name="OWNER_CONTACTER" readonly="true" /></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="联系电话"
+					name="OWNER_CONTACT_TEL" readonly="true" /></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="驾驶人姓名"
+					name="DRIVER_NAME" deserialized="false" readonly="true"/></div>
+				<div class="col-lg-6"><@macro.form_text label="驾驶人联系电话"
+					name="DRIVER_MOBILE_NO" deserialized="false" readonly="true"/></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_date label="维修日期"
+					name="ENTER_DATE"/></div>
+				<div class="col-lg-6"><@macro.form_date label="出站日期"
+					name="ENTER_DATE"/></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label class="control-label col-lg-4">支付状态</label>
+						<div class="col-lg-8">
+							<label class="checkbox-inline">
+						      <input type="radio" name="PAYMENT_STATUS" id="paymentStatus1" 
+						         value="1"> 已支付
+						   </label>
+						   <label class="checkbox-inline">
+						      <input type="radio" name="PAYMENT_STATUS" id="paymentStatus0" 
+						         value="0"> 未支付
+						   </label>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="form-group">
+						<label class="control-label col-lg-2">支付方式</label>
+						<div class="col-lg-10">
+							<label class="checkbox-inline">
+						      <input type="radio" name="PAY_MODE" id="payMode1" 
+						         value="1"> 担保支付
+						   </label>
+						   <label class="checkbox-inline">
+						      <input type="radio" name="PAY_MODE" id="payMode2" 
+						         value="2"> 车管支付
+						   </label>
+						   <label class="checkbox-inline">
+						      <input type="radio" name="PAY_MODE" id="payMode3" 
+						         value="3">个人支付
+						   </label>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6">	
+					<div class="form-group">
+						<label class="control-label col-lg-4">维修发票</label>
+						<input type='hidden' id="invoiceFile" name="invoiceFile"/>
+						<div class="col-lg-8">
+							<a id="btn_view_invoiceFile" href="#" class="btn red mini">查看发票</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="结算金额"
+					name="serviceAmount"/></div>
+				<div class="col-lg-6"><@macro.form_text label="支付金额"
+					name="paymentAmount"/></div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12"><@macro.form_textarea label="维修内容描述"
+					name="serviceItems" span="2,10"/></div>
+			</div>
+			
+			<div class="row ">
+				<div class="col-lg-12" style="text-align:center">
+					<@macro.button_add label="支付担保审批" id="btn_apply" page="Page_PaymentGuaranteeApprove"/>
+					<@macro.button_back/>
+				</div>
+			</div>
+		</form>
+	</div>	
+</div>	

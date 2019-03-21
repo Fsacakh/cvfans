@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="prj_radf" basedir="." default="project.build">
+	<path id="project.classpath">
+		<fileset dir="./lib" /> 
+	    <pathelement path ="./bin"/> 
+	</path> 
+	
+	<target name="project.build" description="create jar for radf base">
+		<java className="com.radf.build.BuildChain">   
+            <classpath refid="project.classpath"/>   
+            <arg value="Entities.xml"/>
+        </java> 
+	</target>	
+</project>

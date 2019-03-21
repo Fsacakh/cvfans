@@ -1,0 +1,57 @@
+
+<script type="text/javascript" language="javascript"> 
+$(function(){
+// var _over = $("ul#menu>li");
+ $("ul#log>li:has(ul)").hover( 
+  function(){ 
+  	$(this).addClass("highlight");
+   $(this).find('ul').fadeIn(400);
+  },
+  function(){
+	  $(this).removeClass("highlight");
+   $(this).find('ul').fadeOut(400);
+  }
+ );
+});
+</script>
+<!--main 页面主体开始-->        
+    <div class="p_main">
+    	<div class="p_main_con">
+        	<aside>
+        		<div class="p_main_l">
+            		<div class="p_photo"><img src="${requestContext.contextPath}/media/image/kachezhiyou/common/personpic.png" /></div>
+                    <div class="hysign"><img src="${requestContext.contextPath}/media/image/kachezhiyou/common/sign03.png"/> 普通会员</div>
+                    <ul style="border-bottom:1px dashed #e4e4e4">
+                        <li>驾照认证：<span>已认证</span></li>
+                        <li>手机捆绑：<span>已捆绑</span></li>
+                       	<li>我的积分：<span>203分</span></li>
+                    </ul>
+                    <ul>
+                    	<li>注册时间：2014-11-11</li>
+                        <li>注册时间：2014-11-11</li>
+                    </ul>     
+            	</div>	  	          	
+        	</aside>
+        	<article>
+        		<div class="p_main_r">
+                	<ul class="username">
+                    	<li>优哉游哉</li>
+                        <li><a href="#">[ 个人资料 ]</a></li>
+                        <li><a href="#">[ 账户信息 ]</a></li>
+                        <li><a href="#" style="display:block; width:74px; height:26px; line-height:26px; text-align:center; background:#25a8f2; color:#fff; border-radius:4px; margin-top:5px;">修改</a></li>
+                    </ul>
+                    <div class="clear"></div>
+                    <ul class="p_a_item">
+                        <li><span>昵 &nbsp;&nbsp;&nbsp;称：</span>&nbsp;悠哉游哉</li>
+                        <li><span>用 户 名：</span>&nbsp;QQ1234567</li>
+                        <li><span>登陆密码：</span>&nbsp;XXXXXXXXX</li>
+                        <li><span style="letter-spacing:4px;">Email：</span>&nbsp;d****2@dpmobile.com</li>
+                    </ul>
+                    <div class="clear"></div>
+
+                </div>     	
+        	</article>
+        <div class="clear"></div>	
+        </div>           	        
+    </div>
+<!--main 页面主体结束-->     

@@ -1,0 +1,40 @@
+<div id="Page_MessageListView" class="row" data-role="page">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		  	<li>消息管理</li>
+		</@macro.Breadcrumb>
+				
+		<div class="row">
+			<div class="col-lg-12">
+				<form id="frm_message_query" class="form-horizontal">
+					<div class="row" style="text-align: right;">
+	        				<@macro.button_delete id="" table="" url="/Persist/Message/Delete.action" message="是否要删除当前选择的消息?" success="btn_query" />
+					</div>
+				</form>
+			</div>
+		</div>
+		    
+		<div class="row">
+			<@macro.dataTable id="" statement="" criteria="">
+				<thead>
+					<tr role="row">
+						<th tabindex="0"><div class="checkbox" style="width:20px;"> <label><input type="checkbox" class="dataTable_selectAll"/></label></div></th>
+						<th></th>
+						<th></th>
+						<th></th>
+						<th></th>
+					</tr>
+					<tr>
+						<td style="width:50px;"><input type="checkbox"></td>
+                        <td>系统消息</td>
+                        <td>恭喜您注册成功!</td>
+                        <td>2014-11-11</td>
+                        <td><a class="btn_examine" page="Page_MessageDetails">查看</a></td>
+                       
+					</tr>
+				</thead>
+				<tbody/>
+			</@macro.dataTable>
+		</div>
+	</div>
+</div>

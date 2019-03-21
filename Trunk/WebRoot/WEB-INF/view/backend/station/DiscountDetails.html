@@ -1,0 +1,58 @@
+<div id="Page_DiscountDetails" data-role='page' class="row hidden">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+			<li>折扣信息详情</li>
+		</@macro.Breadcrumb>
+		
+		<form id="frm_discount"  class="form-horizontal" >
+			<input type="hidden" id="discountId" name="discountId"/>
+			<input type='hidden' id='stationId' name='stationId' value='${Session.User.ownerId}'/>
+			
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_text label="折扣项目"
+					name="item"/></div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label class="control-label col-lg-4">工时折扣</label>
+						<div class="col-lg-8">
+							<input id="timeDiscount" name="timeDiscount" type="text" class="form-control" placeholder="">
+						</div>
+					</div>
+				</div>
+			</div>
+				
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label class="control-label col-lg-4">材料折扣</label>
+						<div class="col-lg-8">
+							<input id="materialDiscount" name="materialDiscount" type="text" class="form-control" placeholder="">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label class="control-label col-lg-4">备注</label>
+						<div class="col-lg-8">
+							<textarea id="memo" name="memo" class="form-control" placeholder="" cols=10 rows=5></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="space12"></div>
+			<div class="row ">
+				<div class="col-lg-12" style="padding-left: 33.3%">
+					<@macro.button_save form="frm_discount"/>
+					<@macro.button_back/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>	

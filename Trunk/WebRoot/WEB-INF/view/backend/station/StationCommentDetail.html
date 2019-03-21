@@ -1,0 +1,102 @@
+<div id="Page_Station_CommentDetail" data-role='page' class="row hidden">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+			<li>评价信息</li>
+		</@macro.Breadcrumb>
+		
+		<form id="frm_comment"  class="form-horizontal" >
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label class="control-label col-lg-4">评价司机</label>
+						<div class="col-lg-8">
+							<input id="driver" name="driver" type="text" class="form-control" placeholder="" disabled='disabled'>							
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label class="control-label col-lg-4">评价手机号</label>
+						<div class="col-lg-8">
+							<input id="mobile" name="mobile" type="text" class="form-control" placeholder="" disabled='disabled'>	
+						</div>
+					</div>
+				</div>
+			</div>
+				
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label class="control-label col-lg-4">整体评价</label>
+						<div class="col-lg-8" id="generalScore" style="width:200px !important">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label class="control-label col-lg-4">价格评价</label>
+						<div class="col-lg-8" id="priceScore" style="width:200px !important">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+				
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label class="control-label col-lg-4">质量评价</label>
+						<div class="col-lg-8" id="qualityScore" style="width:200px !important">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label class="control-label col-lg-4">时间评价</label>
+						<div class="col-lg-8" id="timeScore" style="width:200px !important">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="form-group">
+						<label class="control-label col-lg-4">态度评价</label>
+						<div class="col-lg-8" id="behaviorScore" style="width:200px !important">
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="form-group">
+						<label class="control-label col-lg-2">备注</label>
+						<div class="col-lg-8">
+							<textarea id="comment" name="comment" disabled="disabled" rows="3" class="form-control" placeholder=""></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+				
+			<div class="row ">
+				<div class="col-lg-12" style="text-align:center">
+					<@macro.button_back/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>	

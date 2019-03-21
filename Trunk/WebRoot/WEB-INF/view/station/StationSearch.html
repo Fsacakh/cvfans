@@ -1,0 +1,138 @@
+<div id="Page_StationSearch" class="row" data-role="page">
+	<div class="col-lg-12">
+		<div class="row">
+			<div class="col-lg-12">
+				<@macro.Breadcrumb>
+				  	  <li>
+					  	<a href="#">首页</a>
+					  </li>
+					  <li><a href="#">服务站</a></li>
+				</@macro.Breadcrumb>
+			</div>
+		</div>
+		
+		<div class="row"  style="background:white">
+			<div class="col-md-12">
+				<div class="map_search">
+		        	<div class="mapsearchpic"><img src="${requestContext.contextPath}/media/image/kachezhiyou/mapsearch.png" alt="#"/></div>
+		            <div class="mapsearchbody">
+		            	<div class="mapsearch_con1">
+		                	<p>卡车之友</p>
+		                    <p>帮您找到身边的服务站</p>
+		                </div>
+		                <div class="mapsearch_con2">
+		                	查找/维修/保养&nbsp;&nbsp;&nbsp;&nbsp;一键搞定&nbsp;&nbsp;&nbsp;&nbsp;省钱又省心
+		                </div>
+		            </div>
+		            <div class="clear"></div>
+		        </div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12 searcharea">			
+				<div class="row">
+		            <div class="col-md-12 s_part2">
+		            	<div class="row">
+			            	<div class="s_title02 col-md-1">已选</div>
+			                <div class="selected col-md-7" id="selected"></div>
+			                <div class="col-md-4">
+			                	<form id="frm_station_query" name="frm_station_query">
+									<input type="hidden" id="selected_provinces" name="selected_provinces"/>
+									<input type="hidden" id="selected_brands" name="selected_brands"/>
+									<input class="s_ipt" type="text" name="name" id="name" placeholder="输入关键字搜索">
+									<a id="btn_query" href="#" class="black s_btn">搜索 </a>
+								</form>
+		                	</div>
+			            </div>
+			        </div>
+	            </div>
+		        <div class="space12"></div>
+		            
+	          	<div class="row">
+		            <div class="col-md-12 s_part2">
+		            	<div class="row">
+		            		<div class="s_title02 col-md-1">区域</div>
+		            		<div class="col-md-10">
+		            			<span class="query province">上海</span><span class="query province">北京</span><span class="query province">广州</span><span class="query province">深圳</span>
+								<span class="query province">武汉</span><span class="query province">天津</span><span class="query province">重庆</span><span class="query province">泉州</span>
+								<span class="query province">福州</span><span class="query province">厦门</span><span class="query province">昆明</span>
+		            		</div>
+		            		<div class="col-md-1 right" style="line-height:40px; padding-top:15px"><img id="showMoreProvince" class="clickable" src="${requestContext.contextPath}/media/image/down_arrow.png"></div>
+		                </div>
+					                
+		                <div class="row s_part hidden" id="more_provinces">
+							<div class="col-md-12"  style="padding-left:0px;padding-right:0px">
+								<div class="panel panel-default">
+								   <ul class="list-group">
+								   	  <#list provinces?keys as key>
+									      <li class="list-group-item">
+									      	<span class="key">${key}</span>
+									      	<#list provinces[key] as province>	
+									      		<span class="query province">${province['LABEL']}</span>
+									      	</#list>
+									      </li>
+									  </#list> 
+								   </ul>
+								</div>
+							</div>
+						</div>
+		            </div>
+		        </div>
+		        
+		        <div class="space12"></div>
+		        <div class="row">    
+		            <div class="col-md-12 s_part2">
+		            	<div class="row">
+		            		<div class="s_title02 col-md-1">品牌</div>
+		            		<div class="col-md-10">
+		            			<span class="query brand">东风</span><span class="query brand">福田</span><span class="query brand">江淮</span><span class="query brand">江铃</span>
+								<span class="query brand">重汽王牌</span><span class="query brand">中国重汽</span><span class="query brand">青岛解放</span><span class="query brand">郑州日产</span>
+		            		</div>
+		            		<div class="col-md-1 right" style="line-height:40px; padding-top:15px"><img id="showMoreBrand" class="clickable" src="${requestContext.contextPath}/media/image/down_arrow.png"></div>
+		                </div>
+		                
+		                <div class="row s_part hidden" id="more_brands">
+							<div class="col-md-12"  style="padding-left:0px;padding-right:0px">
+								<div class="panel panel-default">
+								   <ul class="list-group">
+								   	  <#list brands?keys as key>
+									      <li class="list-group-item">
+									      	<span class="key">${key}</span>
+									      	<#list brands[key] as brand>	
+									      		<span class="query brand">${brand['LABEL']}</span>
+									      	</#list>
+									      </li>
+									  </#list> 
+								   </ul>
+								</div>
+							</div>
+						</div>
+		            </div>
+	            </div>
+		    </div>
+		</div>	
+		
+		<div class="row">
+			<div class="col-md-12" style="padding-left:0px; padding-right:0px;">
+				<table id="datatable_station" class="dataTable row-border" data-statement="cvfans.queryStationInfos_11" 	data-criteria="frm_station_query">
+					<thead class="hidden">
+						<tr role="row">
+							<th></th>
+						</tr>
+					</thead>
+					<tbody/>
+				</table>
+			</div>
+		</div>	 
+	</div>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		var param = {};
+		param.refresh = '1';
+		param.first = '1';
+		$("#Page_StationSearch").trigger("onShown", param);
+	});
+</script>

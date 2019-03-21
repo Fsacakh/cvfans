@@ -1,0 +1,20 @@
+<table id="datatable_discount" class="dataTable row-border">
+	<thead>
+		<tr role="row">
+			<th tabindex="0">项目</th>
+			<th tabindex="0">工时</th>
+			<th tabindex="1">材料</th>
+			<th tabindex="1">服务站</th>
+		</tr>
+	</thead>
+	<tbody>
+		<#list result.list as discount>
+			<tr role="row" class="odd">
+				<td class="displayPart">${discount['ITEM']}</td>
+				<td>${discount['TIME_DISCOUNT']}</td>
+				<td>${discount['MATERIAL_DISCOUNT']}</td>
+				<td><a href="/auto/station/StationDetail.html?stationId=0006fcb597bc11e4a220c889550e473c" target="_blank">${discount.NAME}</a></td>
+			</tr>
+		</#list>
+	</tbody>
+</table>

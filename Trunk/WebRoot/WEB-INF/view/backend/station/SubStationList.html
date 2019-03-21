@@ -1,0 +1,54 @@
+<div id="Page_SubStaionListView" class="row" data-role="page">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		  	 <li>
+			  		<a href="#">二级服务站管理</a>
+			  </li>
+			  <li>
+			  		<a href="#">二级服务站查询</a>
+			  </li>
+		</@macro.Breadcrumb>
+				
+	<div class="row">
+			<div class="col-lg-12">
+				<form id="frm_station_query" class="form-horizontal">
+					<input id="parentId" name="parentId" type="hidden"/>
+					<div class="row">
+						<div class="col-lg-4">
+							<@macro.form_text label="服务站名称" name="name"/>
+						</div>
+						
+						<div class="col-lg-4">
+							
+						</div>
+						<div class="col-lg-4" style="text-align:right">
+							<@macro.button_query/>
+							
+	     					<@macro.button_add page="Page_StationDetails_Sub"/>
+	     					
+	        				<@macro.button_delete id="stationId" table="datatable_station" url="/Persist/Station/Delete.action" message="是否要删除当前选择的服务站?" success="btn_query" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		    
+		<div class="row">
+			<@macro.dataTable id="datatable_station" statement="cvfans.queryStationInfos_sub" criteria="frm_station_query">
+				<thead>
+					<tr role="row">
+						<th tabindex="0"><div class="checkbox" style="width:20px;"> <label><input type="checkbox" class="dataTable_selectAll"/></label></div></th>
+						<th tabindex="0">名称</th>
+						<th tabindex="1">地址</th>
+						<th tabindex="2">联系人</th>
+						<th tabindex="2">联系电话</th>
+						<th tabindex="2">服务品牌</th>
+						<th tabindex="2">联盟会员</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody/>
+			</@macro.dataTable>
+		</div>
+	</div>
+</div>

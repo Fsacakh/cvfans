@@ -1,0 +1,109 @@
+<!--main 页面主体开始-->      
+<div id="Page_regester"  class="container login_mian" data-role="page">
+	<div class="row">
+		<div class="col-md-7" style="padding-left:0px;">
+			<div class="loginpic" ><img src="${requestContext.contextPath}/media/image/kachezhiyou/loginpic.png"></div>
+		</div>
+		
+		<div class="col-lg-5">
+			<div class="tag_title">
+              <div id="r_reg">我已经注册，马上 <a href="/auto/login.html">登陆 ></a> </div>
+          	</div>
+          
+			<form id="frm_register"  action="/User/Register.action" class="form-horizontal" style="padding-top:70px;">
+				<input type="text" name="ownerRole" value="1" hidden class="text_login1" placeholder=""  >
+				
+				<div class="form-group">
+					<label for="userName" class="control-label col-md-3 text-left">
+						用户名
+					</label>
+					<div class="col-md-9 checkItem">
+						<input type="text" id="userName" name="userName" class="form-control"  required placeholder="手机号/邮箱/用户名">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="password"  class="control-label col-md-3 text-right">
+						设置密码:
+					</label>
+					<div class="col-md-9">
+						<input type="password" id="password" name="password" class="form-control"  required placeholder="">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label for="code"  class="control-label col-md-3 text-right">
+						确认密码:
+					</label>
+					
+					<div class="col-md-9">
+						<input type="text" id="confirm_password" name="confirm_password" class="form-control"  required placeholder="">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="checkbox control-label col-md-12 text-right"><input id="check" name="check" type="checkbox" checked="">&nbsp;&nbsp;我已阅读 <a href="#">《卡车之友会员章程》</a>及 <a href="#">《卡车之友入会协议》</a></label>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-lg-12">
+						<a href="#" id="btn_reg" class="btn yellow big btn-block">同意协议并注册<i class="m-icon-big-swapright m-icon-white"></i></a>
+					</div>
+				</div>		
+			</form>
+		</div>
+	</div>
+</div>
+    
+<!--个人会员注册，企业会员注册标签切换-->
+<script type="text/javascript">
+		$(document).ready(function()
+		{	
+			$('#frm_register').validate({
+			        rules: {
+			   userName: {
+			   required:true,
+			   minlength: 5
+			   },
+			   password: {
+			    required: true,
+			    minlength: 6
+			   },
+			   confirm_password: {
+			    required: true,
+			    minlength: 6,
+			    equalTo: "#password"
+			   },
+			   check: {
+			   	required: true
+			   }
+			  },
+			   messages: {
+			   userName: {
+			    required: "请输入用户名",
+			    minlength: "密码不能小于5个字 符"
+			   },
+			   password: {
+			    required: "请输入密码",
+			    minlength: "密码不能小于6个字 符"
+			   },
+			   confirm_password: {
+			    required: "请输入确认密码",
+			    minlength: "确认密码不能小于6个字符",
+			    equalTo: "两次输入密码不一致不一致"
+			   },
+			   check:{
+			   	  required: "请勾选此项"
+			   }	
+			  }
+			});				
+		    var  $header_back=$('#header_back');
+		    var  $header_back_b=$('#header_back_bootom');
+		    $header_back_b.empty();
+			$header_back.empty();
+			$header_back.append("<div class='header_main'><div class='logo'><img src="+$.URL.get('media/image/kachezhiyou/logo.png')+" alt='卡车之友'/></div><div class='pagetitle'>欢迎注册</div></div>");
+	});
+</script>
+<script type="text/javascript" src="${requestContext.contextPath}/media/js/app/frontend/register.js"></script>
+<!--main 页面主体结束--> 
+

@@ -1,0 +1,105 @@
+<script type="text/javascript" language="javascript"> 
+$(function(){
+// var _over = $("ul#menu>li");
+ $("ul#log>li:has(ul)").hover( 
+  function(){ 
+  	$(this).addClass("highlight");
+   $(this).find('ul').fadeIn(400);
+  },
+  function(){
+	  $(this).removeClass("highlight");
+   $(this).find('ul').fadeOut(400);
+  }
+ );
+});
+</script>
+</head>
+
+<body>
+<!--header 个人主页头部开始-->  
+	<header>
+    	<div class="header_top">
+        	<div class="login">
+            	<div class="l_login">
+                	<a href="#"><img src="${requestContext.contextPath}/media/image/kachezhiyou/common/minilogo.png" alt="卡车之友"/></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="#">个人主页</a>                           	
+                </div>
+                <div class="p_index"><a href="#">卡车之友首页</a></div>
+                <div class="r_login">
+                    <ul class="p_login" id="log">
+                	<li><img src="${requestContext.contextPath}/media/image/kachezhiyou/common/user.png" alt="#"/> <a class="loga" href="#" style="color:#25a8f2;">优哉游哉 <img src="${requestContext.contextPath}/media/image/kachezhiyou/common/xljt.png"/></a>|
+                    	<ul>
+                        	<li><a href="#"><img src="${requestContext.contextPath}/media/image/kachezhiyou/common/toux.png" alt="用户头像"></a></li>
+                            <li><a class="ge" href="#">个人主页</a>
+                            <a class="zhanag" href="#">账号管理</a>
+                            <a class="tui" href="#">退&nbsp;&nbsp;&nbsp;&nbsp;出</a>
+                            </li>
+                        </ul>
+                     </li>
+					<li style="width:80px;"><a href="#">退出&nbsp;&nbsp;</a>|</li>
+                    <li style="width:80px;"><img src="${requestContext.contextPath}/media/image/kachezhiyou/common/phone.png"/>&nbsp;&nbsp;<a class="loga" href="#">手机版</a></li>     
+                </ul>
+                </div>      	
+            </div>
+            <div class="clear"></div>
+        </div>        
+    </header>
+<!--header 个人主页头部结束-->     
+
+<!--main 页面主体开始-->        
+    <div class="p_main">
+    	<div class="p_main_con">
+        	<aside>
+        		<div class="p_main_l">
+            		<div class="p_photo"><img src="${requestContext.contextPath}/media/image/kachezhiyou/common/personpic.png" /></div>
+                    <div class="hysign"><img src="${requestContext.contextPath}/media/image/kachezhiyou/common/sign03.png"/> 普通会员</div>
+                    <ul style="border-bottom:1px dashed #e4e4e4">
+                        <li>驾照认证：<span>已认证</span></li>
+                        <li>手机捆绑：<span>已捆绑</span></li>
+                       	<li>我的积分：<span>203分</span></li>
+                    </ul>
+                    <ul>
+                    	<li>注册时间：2014-11-11</li>
+                        <li>注册时间：2014-11-11</li>
+                    </ul>     
+            	</div>	  	          	
+        	</aside>
+        	<article>
+        		<div class="p_main_r">
+                	<ul class="username">
+                    	<li>优哉游哉</li>
+                        <li><a href="#">[ 个人资料 ]</a></li>
+                        <li><a href="#">[ 账户信息 ]</a></li>
+                        <li><a href="#" style="display:block; width:74px; height:26px; line-height:26px; text-align:center; background:#25a8f2; color:#fff; border-radius:4px; margin-top:5px;">修改</a></li>
+                    </ul>
+                    <div class="clear"></div>
+                    <ul class="p_item">
+                    	<li><span>所在地：</span>&nbsp;上海</li>
+                        <li><span>年龄：</span>&nbsp;38岁</li>
+                        <li><span>驾龄：</span>&nbsp;18年</li>
+                        <li><span>手机号：</span>：&nbsp;159XXXX3100</li>
+                        <li><span style="color:#5fbff5;">（ 已捆绑 ）</span></li>
+                    </ul>
+                    <ul class="p_item">
+                    	<li><span>车牌号：</span>&nbsp;沪A88888</li>
+                    </ul>
+                    <div class="clear"></div>
+                    <div class="p_pic">
+                    	个人相册
+                        <ul>
+                        	<li><img src="${requestContext.contextPath}/media/image/kachezhiyou/carpic/carpic.png"/></li>
+                            <li><img src="${requestContext.contextPath}/media/image/kachezhiyou/carpic/carpic.png"/></li>
+                            <li><img src="${requestContext.contextPath}/media/image/kachezhiyou/carpic/carpic.png"/></li>
+                            <li><img src="${requestContext.contextPath}/media/image/kachezhiyou/carpic/carpic.png"/></li>
+                            <li><img src="${requestContext.contextPath}/media/image/kachezhiyou/carpic/carpic.png"/></li>
+                            <li><img src="${requestContext.contextPath}/media/image/kachezhiyou/carpic/carpic.png"/></li>
+                        </ul>
+                    </div>  
+                </div>     	
+        	</article>
+        <div class="clear"></div>	
+        </div>           	        
+    	       
+    </div>
+<!--main 页面主体结束-->     
+</body>

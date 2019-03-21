@@ -1,0 +1,43 @@
+<div id="Page_DiscountListView" class="row" data-role="page">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		  	 <li>
+			  		<a href="#">折扣信息管理</a>
+			  </li>
+			  <li>
+			  		<a href="#">折扣信息查询</a>
+			  </li>
+		</@macro.Breadcrumb>
+				
+	<div class="row">
+			<div class="col-lg-12">
+				<form id="frm_discount_query" class="form-horizontal">
+					<div class="row">
+						
+						<div class="col-lg-12" style="text-align:right">
+	     					<@macro.button_add page="Page_DiscountDetails"/>
+	     					
+	        				<@macro.button_delete id="discountId" table="datatable_discount" url="/Persist/Discount/Delete.action" message="是否要删除当前选择的折扣信息?" success="btn_query" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		    
+		<div class="row">
+			<@macro.dataTable id="datatable_discount" statement="cvfans.queryStationDiscountInfos" criteria="frm_discount_query">
+				<thead>
+					<tr role="row">
+						<th tabindex="0"><div class="checkbox" style="width:20px;"> <label><input type="checkbox" class="dataTable_selectAll"/></label></div></th>
+						<th tabindex="0">折扣项目</th>
+						<th tabindex="4">材料折扣</th>
+						<th tabindex="4">工时折扣</th>
+						<th tabindex="4">备注</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody/>
+			</@macro.dataTable>
+		</div>
+	</div>
+</div>

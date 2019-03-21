@@ -1,0 +1,20 @@
+<head>
+	<title>车管管理</title>
+</head>
+
+<body>
+	<#include "./EnterpriseDetail.html">
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var param = {
+				action:"edit",
+				data:{enterpriseId:$("#ownerId").val()}
+			};
+			
+			$("#Page_EnterpriseDetail").forward(param);
+			
+			$("#Page_EnterpriseDetail #btn_back").addClass("hidden");
+		});
+	</script>
+</body>

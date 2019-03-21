@@ -1,0 +1,124 @@
+<div id="Page_DriverAuthenticate" data-role='page' class="row hidden">
+	
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+			<li>司机详情</li>
+		</@macro.Breadcrumb>
+		
+		<form id="frm_driver" data-entity="Driver"  class="form-horizontal">
+			<input type="hidden" id="driverId" name="driverId"/>
+			<input type="hidden" id="provinceName" name="provinceName"/>
+			<input type="hidden" id="cityName" name="cityName"/>
+			<input type="hidden" id="areaName" name="areaName"/>
+			
+			<div class="row">
+					<div class="col-lg-6">
+						<@macro.form_text label="昵称" name="nickName"  readonly="true" deserialized="false"/>
+					</div>
+					<div class="col-lg-6">
+						<@macro.form_text label="姓名" name="name"  readonly="true" deserialized="false"/>
+					</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="form-group">
+						<label class="control-label col-lg-2">地址</label>
+						<div class="col-lg-2">
+							<@macro.field_select name="province"  deserialized="false" statementId="DataInfo.Query"   readonly="true" filter="parentId:1" optionValue="id" optionName="label" cascade="city">
+								<option value="">选择省份</option>
+							</@macro.field_select>
+						</div>
+						<div class="col-lg-2">
+							<@macro.field_select name="city"  deserialized="false" statementId="DataInfo.Query"   readonly="true" optionValue="id" optionName="label" filter="parentId"  initial="0" cascade="area">
+								<option value="">选择市</option>
+							</@macro.field_select>
+						</div>
+						<div class="col-lg-2">
+							<@macro.field_select name="area"  deserialized="false" statementId="DataInfo.Query"   readonly="true" optionValue="id" optionName="label" filter="parentId" initial="0">
+								<option value="">选择区</option>
+							</@macro.field_select>
+						</div>
+						<div class="col-lg-4">
+							<input id="address" name="address"	 deserialized="false" type="text" class="form-control"   readonly="true" placeholder="">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+					<div class="col-lg-6" >
+						<@macro.form_text label="出生日期" name="bornDate"  deserialized="false"   readonly="true"/>
+					</div>
+					
+					<div class="col-lg-6">
+						<@macro.form_static_checkbox label="手机号绑定"  deserialized="false" name="mobileBinded"  readonly="true"/>
+					</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6 date">
+					<@macro.form_text label="驾驶证日期" name="licenseDate"  deserialized="false"    readonly="true"/>
+				</div>
+				
+				<div class="col-lg-6">
+					<@macro.form_text label="驾驶证号" name="licenseNo"  deserialized="false"   readonly="true"/>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6"><@macro.form_image label="驾照"
+					name="licenseFile"/></div> 
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-6 clearfix">
+					<div class="form-group">
+						<label class="control-label col-lg-4">驾照验证</label>
+						<div class="col-lg-5">
+							<div class="checkbox">
+								<input type="hidden"  deserialized="false" name="licenseFile" id="licenseFile"/>
+								<label class="checkbox-inline">
+							      <input type="radio" name="licenseAuthenticated" id="licenseAuthenticated_ok" 
+							         value="1"/> 通过
+							   	</label>
+							   	<label class="checkbox-inline">
+							      <input type="radio" name="licenseAuthenticated" id="licenseAuthenticated_ko" 
+							         value="-1"/> 不通过
+							   	</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<@macro.form_textarea label="认证备注" name="licenseAuthenticatedMemo" name="licenseAuthenticatedMemo" span="2,10" placeholder="500字以内"/>
+				</div>
+			</div>
+			<div class="row">
+					
+			</div>
+			<div class="space12"></div>
+			<div class="row ">
+				<div class="col-lg-12" style="text-align: center;">
+					<@macro.button_save form="frm_driver"/>
+					<@macro.button_back/>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+

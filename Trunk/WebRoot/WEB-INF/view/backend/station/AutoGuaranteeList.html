@@ -1,0 +1,48 @@
+<div id="Page_AutoGuranteeApproveListView" class="row" data-role="page">
+	<div class="col-lg-12">
+		<@macro.Breadcrumb>
+		  	 <li>
+			  		<a href="#">车辆担保管理</a>
+			  </li>
+			  <li>
+			  		<a href="#">车辆担保查询</a>
+			  </li>
+		</@macro.Breadcrumb>
+				
+		<div class="row">
+			<div class="col-lg-5">
+				<@macro.form_text label="车牌号" name="" span="4,8"/>
+			</div>
+			<div class="col-lg-7">
+				
+					<div class="row" style="text-align: right;">
+							<@macro.button_query/>
+							
+	        				<@macro.button_delete id="serviceId" label="取消担保" table="datatable_guarantee" url="/Persist/AutoGuarantee/Delete.action" message="是否要取消当前选择车辆的担保信息?" success="btn_query" />
+					</div>
+				</form>
+			</div>
+		</div>
+		 
+		<div class="space12">
+		</div>    
+		<div class="row">
+			<@macro.dataTable id="datatable_guarantee" statement="cvfans.queryStationAutoGuaranteeInfos" criteria="frm_guarantee_query">
+				<thead>
+					<tr role="row">
+						<th tabindex="0"><div class="checkbox" style="width:20px;"> <label><input type="checkbox" class="dataTable_selectAll"/></label></div></th>
+						<th>车牌号</th>
+						<th>车辆所属</th>
+						<th>联系人</th>
+						<th>联系电话</th>
+						<th>品牌</th>
+						<th>型号</th>
+						<th>担保</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody/>
+			</@macro.dataTable>
+		</div>
+	</div>
+</div>
